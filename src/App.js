@@ -78,6 +78,13 @@ const education = [
     ]
   }
 ];
+// ---------- Skills (grouped) ----------
+const skills = {
+  "Programming Languages": ["Go", "Python", "JavaScript", "Java", "C/C++", "SQL"],
+  "Frameworks & Libraries": ["React", "Flask", "Django", "Angular", "LangChain", "PyTorch", "OpenCV", "scikit-learn", "OpenAI API"],
+  "Databases & Cloud": ["MySQL", "PostgreSQL", "MongoDB", "DynamoDB", "AWS", "Databricks"],
+  "DevOps & Tools": ["Docker", "Jenkins", "Git/GitHub", "Selenium", "REST APIs", "CI/CD"],
+};
   // NEW: splash state
   const [showSplash, setShowSplash] = useState(true);
 
@@ -269,8 +276,9 @@ const education = [
               <img src={photo} alt="Sahil Pambhar" className="w-full h-full object-cover" />
             </div>
             <div className="flex-1">
-            <h1 className="gradient-text text-3xl md:text-4xl font-bold tracking-tight"> Sahil Dineshbhai Pambhar</h1>
-              <p className="mt-2 text-slate-300 max-w-xl">
+            <h1 className="text-white text-3xl md:text-4xl font-bold tracking-tight">
+  Sahil Dineshbhai Pambhar
+</h1>              <p className="mt-2 text-slate-300 max-w-xl">
               Full-stack software engineer with an MS in Computer Science from Stevens Institute of Technology, currently interning at Curantis Solutions. Skilled in Go, Python, React, and AWS, with a track record of delivering scalable microservices, AI-powered RAG applications, and computer vision solutions that drive measurable performance gains and real-world impact.
               </p>
               <div className="mt-4 flex flex-wrap gap-3 items-center">
@@ -377,14 +385,29 @@ const education = [
 
           {/* ---------- Projects (kept) ---------- */}
           <aside className="space-y-6">
-            <div className="p-4 rounded-2xl bg-slate-800/30 ring-1 ring-slate-700/40">
-              <h3 className="text-sm font-medium">Top Skills</h3>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {['Go','Python','React','Flask','Django','OpenCV','SQL','MongoDB','Docker','AWS','CI/CD','LLMs','Computer Vision'].map(s => (
-                  <span key={s} className="text-xs px-2 py-1 bg-slate-700/40 rounded">{s}</span>
-                ))}
-              </div>
-            </div>
+          <div className="p-4 rounded-2xl bg-slate-800/30 ring-1 ring-slate-700/40">
+  <h3 className="text-sm font-medium">Skills</h3>
+
+  <div className="mt-3 space-y-4">
+    {Object.entries(skills).map(([group, items]) => (
+      <div key={group}>
+        <div className="text-xs uppercase tracking-wide text-slate-400 mb-2">{group}</div>
+        <div className="flex flex-wrap gap-2">
+          {items.map((s) => (
+            <span
+              key={s}
+              className="text-xs px-2 py-1 rounded bg-slate-700/40 ring-1 ring-slate-700/40
+                         hover:bg-gradient-to-r hover:from-cyan-500/15 hover:to-fuchsia-500/15
+                         hover:ring-cyan-400/40 transition"
+            >
+              {s}
+            </span>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
             <div className="p-4 rounded-2xl bg-slate-800/30 ring-1 ring-slate-700/40">
               <h3 className="text-sm font-medium">Contact</h3>
               <p className="mt-2 text-sm text-slate-300">
