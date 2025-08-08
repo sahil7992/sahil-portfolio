@@ -1,13 +1,40 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .gradient-animate {
+    background: linear-gradient( -45deg,
+      #7c3aed, #06b6d4, #22c55e, #f59e0b, #ef4444
+    );
+    background-size: 300% 300%;
+    animation: gradientShift 8s ease infinite;
+  }
+@keyframes gradient-move {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.gradient-text {
+background: linear-gradient(270deg, #06b6d4, #8b5cf6, #ec4899, #f59e0b);
+background-size: 800% 800%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+animation: gradient-move 6s ease infinite;
 }
+@keyframes gradient-bg {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  .gradient-box {
+    background: linear-gradient(270deg, #06b6d4, #8b5cf6, #ec4899, #f59e0b);
+    background-size: 800% 800%;
+    animation: gradient-bg 6s ease infinite;
+  }
