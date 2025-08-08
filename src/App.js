@@ -443,8 +443,8 @@ const skills = {
         </section>
 
         <footer className="mt-12 text-center text-slate-400 text-sm">
-          <div>Designed & built by Sahil — minimal, elegant, and modern.</div>
-          <div className="mt-2">© {new Date().getFullYear()} Sahil Pambhar</div>
+          <div>Designed & built by Sahil</div>
+
         </footer>
         </div>
       </motion.div>
