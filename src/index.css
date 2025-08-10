@@ -2,6 +2,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global Space Mono font */
+* {
+  font-family: 'Space Mono', monospace;
+}
+
+/* DotGothic16 font for specific elements */
+.dotgothic16-font {
+  font-family: 'DotGothic16', sans-serif !important;
+}
+
+/* Fix bullet point indentation */
+ul li {
+  list-style-position: inside;
+}
 @keyframes gradientShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -38,3 +53,4 @@ animation: gradient-move 6s ease infinite;
     background-size: 800% 800%;
     animation: gradient-bg 6s ease infinite;
   }
+  
