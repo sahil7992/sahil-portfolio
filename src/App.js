@@ -26,6 +26,25 @@ export default function SahilPortfolio() {
   const [showRolesDropdown, setShowRolesDropdown] = useState(false);
   const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
   const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
+  const [typedText, setTypedText] = useState('');
+  const [isTyping, setIsTyping] = useState(true);
+  const [showSplash, setShowSplash] = useState(true);
+
+  // Typing animation effect - starts after splash screen
+  useEffect(() => {
+    if (!showSplash && isTyping) { // Only start typing after splash screen is gone
+      const fullText = "Full-stack software engineer with an MS in Computer Science from Stevens Institute of Technology, currently interning at Curantis Solutions. Proven experience delivering scalable microservices, AI-powered RAG systems, and computer vision solutions that create measurable impact. Driven by curiosity and a focus on building technology that's practical, efficient, and genuinely useful —currently developing FlyEasy, a smarter way to help travelers find the cheapest flights with AI-driven insights";
+      
+      if (typedText.length < fullText.length) {
+        const timeout = setTimeout(() => {
+          setTypedText(fullText.slice(0, typedText.length + 1));
+        }, 3);
+        return () => clearTimeout(timeout);
+      } else if (typedText.length === fullText.length) {
+        setIsTyping(false);
+      }
+    }
+  }, [isTyping, showSplash, typedText]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -201,7 +220,6 @@ export default function SahilPortfolio() {
   };
 
   // Splash state
-  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     if (showSplash) {
@@ -265,6 +283,15 @@ export default function SahilPortfolio() {
 
       ctx.fillStyle = "rgba(255,255,255,0.7)";
       particles.forEach((p) => {
+        // Continuous movement without mouse interaction
+        p.x += p.speedX;
+        p.y += p.speedY;
+        
+        // Add subtle random movement
+        p.speedX += (Math.random() - 0.5) * 0.1;
+        p.speedY += (Math.random() - 0.5) * 0.1;
+        
+        // Mouse interaction (optional enhancement)
         if (mouse.active) {
           const dx = p.x - mouse.x;
           const dy = p.y - mouse.y;
@@ -277,10 +304,10 @@ export default function SahilPortfolio() {
             p.speedY += (dy / d) * force * 0.3;
           }
         }
-        p.x += p.speedX;
-        p.y += p.speedY;
-        p.speedX *= 0.985;
-        p.speedY *= 0.985;
+        
+        // Damping and boundary handling
+        p.speedX *= 0.99;
+        p.speedY *= 0.99;
         if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
         if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
 
@@ -381,7 +408,17 @@ export default function SahilPortfolio() {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-gray-900 via-slate-900 to-black text-slate-100 antialiased overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-slate-100 antialiased overflow-hidden">
+      {/* Ruled Notebook Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        {/* Graph paper squares */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-[size:25px_25px]"></div>
+        {/* Ruled lines */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(148,163,184,0.12)_1px,transparent_1px)] bg-[size:100%_25px]"></div>
+        {/* Darker texture overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30"></div>
+      </div>
+      
       {/* Background canvas */}
       <canvas ref={canvasRef} className="fixed inset-0 z-0 pointer-events-none" />
 
@@ -399,17 +436,17 @@ export default function SahilPortfolio() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-white text-3xl md:text-5xl font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)]"
-            style={{ fontFamily: 'DotGothic16, sans-serif' }}
+            className="text-white text-3xl md:text-5xl font-light tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)]"
+            style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}
           >
-            Welcome to <span className="opacity-90"  style={{ fontFamily: 'DotGothic16, sans-serif' }}>Sahil’s Portfolio</span>
+            Welcome to <span className="opacity-90 font-medium"  style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}>Sahil's Portfolio</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.9 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="mt-3 md:mt-4 text-white/90"
-            style={{ fontFamily: 'DotGothic16, sans-serif' }}
+            className="mt-3 md:mt-4 text-white/90 font-light"
+            style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}
           >
             Building reliable, scalable, and user-focused software solutions.
           </motion.p>
@@ -520,7 +557,7 @@ export default function SahilPortfolio() {
               <img src={photo} alt="Sahil Pambhar" className="w-full h-full object-cover" />
               </div>
               <div className="flex-1 min-w-0 flex flex-col">
-                <h1 className="text-white text-2xl md:text-4xl font-bold tracking-tight" style={{ fontFamily: 'Inter, sans-serif' }}>
+                <h1 className="text-white text-2xl md:text-4xl font-bold tracking-tight">
                   Sahil Dineshbhai Pambhar
                 </h1>
                 <div className="relative mt-2 roles-dropdown">
@@ -565,8 +602,9 @@ export default function SahilPortfolio() {
                     </div>
                   )}
                 </div>
-                <div className="mt-2 text-slate-300 max-w-xl text-sm md:text-base" style={{ fontFamily: 'Inter, sans-serif' }}>
-                Full-stack software engineer with an MS in Computer Science from Stevens Institute of Technology, currently interning at Curantis Solutions. Proven experience delivering scalable microservices, AI-powered RAG systems, and computer vision solutions that create measurable impact. Driven by curiosity and a focus on building technology that’s practical, efficient, and genuinely useful —currently developing FlyEasy, a smarter way to help travelers find the cheapest flights with AI-driven insights
+                <div className="mt-2 text-slate-300 max-w-xl text-sm md:text-base min-h-[120px] md:min-h-[100px]">
+                  {typedText}
+                  {isTyping && <span className="animate-pulse">|</span>}
                 </div>
                 <div className="mt-8 flex flex-col gap-4">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
