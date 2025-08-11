@@ -38,7 +38,7 @@ export default function SahilPortfolio() {
       if (typedText.length < fullText.length) {
         const timeout = setTimeout(() => {
           setTypedText(fullText.slice(0, typedText.length + 1));
-        }, 3);
+        }, 8);
         return () => clearTimeout(timeout);
       } else if (typedText.length === fullText.length) {
         setIsTyping(false);
@@ -701,7 +701,7 @@ export default function SahilPortfolio() {
           </section>
 
           {/* ===== Education & Skills ===== */}
-          <section id="education" className="md:snap-start min-h-screen flex items-center overflow-y-auto">
+          <section id="education" className="md:snap-start min-h-screen flex items-center overflow-y-auto mt-12 md:mt-0">
             <div className="w-full bg-slate-800/30 rounded-2xl p-4 md:p-6 backdrop-blur-sm ring-1 ring-slate-700/40 overflow-y-auto max-h-full">
               <h2 className="text-lg font-semibold">Education & Skills</h2>
             <div className="relative mt-4">
@@ -764,7 +764,7 @@ export default function SahilPortfolio() {
           </section>
 
           {/* ===== Projects ===== */}
-          <section id="projects" className="md:snap-start min-h-screen flex items-center overflow-y-auto">
+          <section id="projects" className="md:snap-start min-h-screen flex items-center overflow-y-auto mt-12 md:mt-0">
             <div className="w-full bg-slate-800/30 rounded-2xl p-4 md:p-6 backdrop-blur-sm ring-1 ring-slate-700/40 overflow-y-auto max-h-full">
               <h2 className="text-xl font-semibold">Projects</h2>
               <div className="space-y-8 md:space-y-8 mt-4">
