@@ -430,11 +430,7 @@ export default function SahilPortfolio() {
               <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-fuchsia-400 transition-all duration-300 group-hover:w-full"></div>
             </button>
             <button onClick={() => scrollToSection('education')} className="text-white/70 hover:text-white transition-colors duration-300 relative group">
-              Education
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-fuchsia-400 transition-all duration-300 group-hover:w-full"></div>
-            </button>
-            <button onClick={() => scrollToSection('skills')} className="text-white/70 hover:text-white transition-colors duration-300 relative group">
-              Skills
+              Education & Skills
               <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-fuchsia-400 transition-all duration-300 group-hover:w-full"></div>
             </button>
             <button onClick={() => scrollToSection('projects')} className="text-white/70 hover:text-white transition-colors duration-300 relative group">
@@ -492,8 +488,7 @@ export default function SahilPortfolio() {
             <nav className="w-full px-6 py-4 flex flex-col gap-4 text-sm">
               <button onClick={() => { scrollToSection('about'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">About</button>
               <button onClick={() => { scrollToSection('experience'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Experience</button>
-              <button onClick={() => { scrollToSection('education'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Education</button>
-              <button onClick={() => { scrollToSection('skills'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Skills</button>
+                          <button onClick={() => { scrollToSection('education'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Education & Skills</button>
               <button onClick={() => { scrollToSection('projects'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Projects</button>
               <button onClick={() => { scrollToSection('contact'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Contact</button>
               <a
@@ -667,10 +662,10 @@ export default function SahilPortfolio() {
             </div>
           </section>
 
-          {/* ===== Education ===== */}
+          {/* ===== Education & Skills ===== */}
           <section id="education" className="md:snap-start min-h-screen flex items-center overflow-y-auto">
             <div className="w-full bg-slate-800/30 rounded-2xl p-4 md:p-6 backdrop-blur-sm ring-1 ring-slate-700/40 overflow-y-auto max-h-full">
-              <h2 className="text-lg font-semibold">Education</h2>
+              <h2 className="text-lg font-semibold">Education & Skills</h2>
             <div className="relative mt-4">
                 <div className="absolute left-3 top-0 bottom-0 w-px bg-slate-700/40" />
               <ul className="space-y-4">
@@ -708,26 +703,24 @@ export default function SahilPortfolio() {
                 ))}
               </ul>
               </div>
-            </div>
-          </section>
-
-          {/* ===== Skills ===== */}
-          <section id="skills" className="md:snap-start min-h-screen flex items-center overflow-y-auto">
-            <div className="w-full p-4 md:p-6 rounded-2xl bg-slate-800/30 ring-1 ring-slate-700/40 overflow-y-auto max-h-full">
-              <h3 className="text-lg font-semibold">Skills</h3>
-              <div className="mt-3 space-y-4">
-                {Object.entries(skills).map(([group, items]) => (
-                  <div key={group}>
-                    <div className="text-xs uppercase tracking-wide text-slate-400 mb-2">{group}</div>
-                    <div className="flex flex-wrap gap-2">
-                      {items.map((s) => (
-                        <span key={s} className="text-xs px-2 py-1 rounded bg-slate-700/40 ring-1 ring-slate-700/40 transition">
-                          {s}
-                        </span>
-                      ))}
+              
+              {/* Skills Section */}
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold mb-4">Skills</h3>
+                <div className="space-y-4">
+                  {Object.entries(skills).map(([group, items]) => (
+                    <div key={group}>
+                      <div className="text-xs uppercase tracking-wide text-slate-400 mb-2">{group}</div>
+                      <div className="flex flex-wrap gap-2">
+                        {items.map((s) => (
+                          <span key={s} className="text-xs px-2 py-1 rounded bg-slate-700/40 ring-1 ring-slate-700/40 transition">
+                            {s}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </section>
