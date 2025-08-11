@@ -23,6 +23,21 @@ export default function SahilPortfolio() {
   });
   const [formErrors, setFormErrors] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [showRolesDropdown, setShowRolesDropdown] = useState(false);
+  const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
+  const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showRolesDropdown && !event.target.closest('.roles-dropdown')) {
+        setShowRolesDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showRolesDropdown]);
 
   // Smooth scrolling function
   const scrollToSection = (sectionId) => {
@@ -306,6 +321,7 @@ export default function SahilPortfolio() {
       "/spendwise/Goal Tracker(Add_edit).png"
     ],
     imageAuth: [
+      "/image auth/st.webp",
       "/image auth/Screenshot 2025-08-10 at 4.58.31 PM.png"
     ]
   };
@@ -325,6 +341,43 @@ export default function SahilPortfolio() {
       ...prev,
       [projectKey]: prev[projectKey] === 0 ? projectImages[projectKey].length - 1 : prev[projectKey] - 1
     }));
+  };
+
+  // Swipe functions for mobile
+  const handleTouchStart = (e) => {
+    setTouchStart({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY
+    });
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY
+    });
+  };
+
+  const handleTouchEnd = (projectKey) => {
+    if (!touchStart.x || !touchEnd.x) return;
+    
+    const distanceX = touchStart.x - touchEnd.x;
+    const distanceY = touchStart.y - touchEnd.y;
+    const isHorizontalSwipe = Math.abs(distanceX) > Math.abs(distanceY);
+    
+    if (isHorizontalSwipe && Math.abs(distanceX) > 50) {
+      if (distanceX > 0) {
+        // Swipe left - next image
+        nextImage(projectKey);
+      } else {
+        // Swipe right - previous image
+        prevImage(projectKey);
+      }
+    }
+    
+    // Reset touch positions
+    setTouchStart({ x: 0, y: 0 });
+    setTouchEnd({ x: 0, y: 0 });
   };
 
   return (
@@ -472,10 +525,52 @@ export default function SahilPortfolio() {
               <img src={photo} alt="Sahil Pambhar" className="w-full h-full object-cover" />
               </div>
               <div className="flex-1 min-w-0 flex flex-col">
-                <h1 className="text-white text-2xl md:text-4xl font-bold tracking-tight" style={{ fontFamily: 'Space Mono, monospace' }}>
+                <h1 className="text-white text-2xl md:text-4xl font-bold tracking-tight" style={{ fontFamily: 'Inter, sans-serif' }}>
                   Sahil Dineshbhai Pambhar
                 </h1>
-                <div className="mt-2 text-slate-300 max-w-xl text-sm md:text-base" style={{ fontFamily: 'Space Mono, monospace' }}>
+                <div className="relative mt-2 roles-dropdown">
+                  <button
+                    onClick={() => setShowRolesDropdown(!showRolesDropdown)}
+                    className="text-xs px-3 py-1 rounded-full bg-green-500/20 border border-green-400/30 text-green-300 font-medium hover:bg-green-500/30 hover:border-green-400/50 transition-all duration-300 cursor-pointer flex items-center gap-1"
+                  >
+                    Open to roles
+                    <span className={`transition-transform duration-300 ${showRolesDropdown ? 'rotate-180' : ''}`}>▼</span>
+                  </button>
+                  
+                  {showRolesDropdown && (
+                    <div className="absolute top-full left-0 mt-2 w-80 bg-slate-900/95 backdrop-blur-xl border border-slate-700/50 rounded-xl shadow-2xl shadow-black/50 z-50 p-4">
+                      <div className="text-xs text-slate-400 mb-3 font-medium">Roles I'm actively seeking:</div>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors duration-200">
+                          <span className="text-cyan-400 hover:animate-spin transition-transform duration-300">⚡</span>
+                          <span className="text-white text-sm">Full Stack Software Engineer</span>
+                        </div>
+                        <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors duration-200">
+                          <span className="text-purple-400 hover:animate-spin transition-transform duration-300">🤖</span>
+                          <span className="text-white text-sm">AI/ML Engineer</span>
+                        </div>
+                        <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors duration-200">
+                          <span className="text-green-400 hover:animate-spin transition-transform duration-300">💬</span>
+                          <span className="text-white text-sm">Prompt Engineer</span>
+                        </div>
+                        <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors duration-200">
+                          <span className="text-blue-400 hover:animate-spin transition-transform duration-300">🔍</span>
+                          <span className="text-white text-sm">Computer Vision Engineer</span>
+                        </div>
+                        <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors duration-200">
+                          <span className="text-orange-400 hover:animate-spin transition-transform duration-300">☁️</span>
+                          <span className="text-white text-sm">Cloud/DevOps Engineer</span>
+                        </div>
+                      </div>
+                      <div className="mt-3 pt-3 border-t border-slate-700/50">
+                        <div className="text-xs text-slate-400">
+                          <span className="text-green-400">📍</span> Open to remote, hybrid, or on-site opportunities in United States
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="mt-2 text-slate-300 max-w-xl text-sm md:text-base" style={{ fontFamily: 'Inter, sans-serif' }}>
                 Full-stack software engineer with an MS in Computer Science from Stevens Institute of Technology, currently interning at Curantis Solutions. Proven experience delivering scalable microservices, AI-powered RAG systems, and computer vision solutions that create measurable impact. Driven by curiosity and a focus on building technology that’s practical, efficient, and genuinely useful —currently developing FlyEasy, a smarter way to help travelers find the cheapest flights with AI-driven insights
                 </div>
                 <div className="mt-8 flex flex-col gap-4">
@@ -645,38 +740,31 @@ export default function SahilPortfolio() {
                 {/* SurroundShield */}
                 <div className="p-4 rounded-md ring-1 transition-transform duration-300 bg-slate-900/20 ring-slate-700/30 hover:scale-[1.02] hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-fuchsia-500/10 hover:ring-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/10 hover:text-white">
                   <div className="flex flex-col md:flex-row gap-3 md:gap-4">
-                    <div className="flex-shrink-0 relative">
+                    <div 
+                      className="flex-shrink-0 relative"
+                      onTouchStart={handleTouchStart}
+                      onTouchMove={handleTouchMove}
+                      onTouchEnd={() => handleTouchEnd('surroundshield')}
+                    >
                       <img 
                         src={projectImages.surroundshield[currentImageIndex.surroundshield]} 
                         alt="SurroundShield" 
                         className="w-full h-40 md:w-64 md:h-40 rounded-lg object-cover ring-1 ring-slate-600/50"
                       />
                       {projectImages.surroundshield.length > 1 && (
-                        <>
-                          <button 
-                            onClick={() => prevImage('surroundshield')}
-                            className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/70 hover:bg-black/90 text-white text-xl font-bold rounded-full flex items-center justify-center transition-all duration-300 z-10"
-                          >
-                            ‹
-                          </button>
-                          <button 
-                            onClick={() => nextImage('surroundshield')}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/70 hover:bg-black/90 text-white text-xl font-bold rounded-full flex items-center justify-center transition-all duration-300 z-10"
-                          >
-                            ›
-                          </button>
-                          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
-                            {projectImages.surroundshield.map((_, index) => (
-                              <div 
-                                key={index}
-                                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                  index === currentImageIndex.surroundshield ? 'bg-white' : 'bg-white/50'
-                                }`}
-                              />
-                            ))}
-                          </div>
-
-                        </>
+                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+                          {projectImages.surroundshield.map((_, index) => (
+                            <button
+                              key={index}
+                              onClick={() => setCurrentImageIndex(prev => ({ ...prev, surroundshield: index }))}
+                              className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-125 shadow-lg ${
+                                index === currentImageIndex.surroundshield 
+                                  ? 'bg-white ring-2 ring-black/20' 
+                                  : 'bg-black/70 hover:bg-black/90'
+                              }`}
+                            />
+                          ))}
+                        </div>
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -698,8 +786,12 @@ export default function SahilPortfolio() {
                       <div className="flex flex-wrap gap-2">
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">React</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Node.js</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Express</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Python</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Llama 3</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Databricks</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">MongoDB</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Socket.io</span>
                       </div>
                     </div>
                   </div>
@@ -708,37 +800,31 @@ export default function SahilPortfolio() {
                 {/* SpendWise */}
                 <div className="p-4 rounded-md ring-1 transition-transform duration-300 bg-slate-900/20 ring-slate-700/30 hover:scale-[1.02] hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-fuchsia-500/10 hover:ring-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/10 hover:text-white">
                   <div className="flex flex-col md:flex-row gap-3 md:gap-4">
-                    <div className="flex-shrink-0 relative">
+                    <div 
+                      className="flex-shrink-0 relative"
+                      onTouchStart={handleTouchStart}
+                      onTouchMove={handleTouchMove}
+                      onTouchEnd={() => handleTouchEnd('spendwise')}
+                    >
                       <img 
                         src={projectImages.spendwise[currentImageIndex.spendwise]} 
                         alt="SpendWise" 
                         className="w-full h-40 md:w-64 md:h-40 rounded-lg object-cover ring-1 ring-slate-600/50"
                       />
                       {projectImages.spendwise.length > 1 && (
-                        <>
-                          <button 
-                            onClick={() => prevImage('spendwise')}
-                            className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/70 hover:bg-black/90 text-white text-xl font-bold rounded-full flex items-center justify-center transition-all duration-300 z-10"
-                          >
-                            ‹
-                          </button>
-                          <button 
-                            onClick={() => nextImage('spendwise')}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/70 hover:bg-black/90 text-white text-xl font-bold rounded-full flex items-center justify-center transition-all duration-300 z-10"
-                          >
-                            ›
-                          </button>
-                          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
-                            {projectImages.spendwise.map((_, index) => (
-                              <div 
-                                key={index}
-                                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                  index === currentImageIndex.spendwise ? 'bg-white' : 'bg-white/50'
-                                }`}
-                              />
-                            ))}
-                          </div>
-                        </>
+                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+                          {projectImages.spendwise.map((_, index) => (
+                            <button
+                              key={index}
+                              onClick={() => setCurrentImageIndex(prev => ({ ...prev, spendwise: index }))}
+                              className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-125 shadow-lg ${
+                                index === currentImageIndex.spendwise 
+                                  ? 'bg-white ring-2 ring-black/20' 
+                                  : 'bg-black/70 hover:bg-black/90'
+                              }`}
+                            />
+                          ))}
+                        </div>
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -761,7 +847,11 @@ export default function SahilPortfolio() {
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Django</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">React</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">MySQL</span>
-                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Dashboard</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Python</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Chart.js</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Bootstrap</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">REST API</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">CRUD</span>
                       </div>
                     </div>
                   </div>
@@ -796,8 +886,12 @@ export default function SahilPortfolio() {
                       <div className="flex flex-wrap gap-2">
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">PyTorch</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">OpenCV</span>
-                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Computer Vision</span>
-                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">AI Detection</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Python</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">TensorFlow</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">NumPy</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Pandas</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Matplotlib</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Deep Learning</span>
                       </div>
                     </div>
                   </div>
