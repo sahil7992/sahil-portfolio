@@ -300,6 +300,7 @@ export default function SahilPortfolio() {
       "/ss/Screenshot 2025-04-02 at 9.34.25 PM.png"
     ],
     spendwise: [
+      "/spendwise/a logo.png",
       "/spendwise/dashboard (1).png",
       "/spendwise/Goal Tracker.png",
       "/spendwise/Goal Tracker(Add_edit).png"
