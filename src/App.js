@@ -3,9 +3,9 @@ import { motion } from "framer-motion";
 
 export default function SahilPortfolio() {
   const publicUrl = process.env.PUBLIC_URL || "";
-  const assetPath = (p) => `${publicUrl}${p}`;
+  const assetPath = (p) => `${publicUrl}${encodeURI(p)}`;
   const resumePdf = assetPath("/Sahil_Pambhar_Resume25NAZ.pdf");
-  const photo = assetPath("/1000087301 2.JPG");
+  const photo = assetPath("/IMG_7143 2.jpg");
   const canvasRef = useRef(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState({
