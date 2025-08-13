@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-
-
 export default function SahilPortfolio() {
   const resumePdf = "/Sahil_Pambhar_Resume25NAZ.pdf";
   const photo = "/1000087301 2.JPG";
@@ -14,7 +12,6 @@ export default function SahilPortfolio() {
     imageAuth: 0
   });
 
-  // Contact form state
   const [contactForm, setContactForm] = useState({
     name: '',
     email: '',
@@ -26,27 +23,43 @@ export default function SahilPortfolio() {
   const [showRolesDropdown, setShowRolesDropdown] = useState(false);
   const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
   const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
-  const [typedText, setTypedText] = useState('');
-  const [isTyping, setIsTyping] = useState(true);
   const [showSplash, setShowSplash] = useState(true);
+  const roleTitles = ["Fullstack Engineer", "Software Developer Engineer", "AI/ML Engineer"];
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [roleText, setRoleText] = useState('');
+  const [isDeletingRole, setIsDeletingRole] = useState(false);
 
-  // Typing animation effect - starts after splash screen
+  // removed legacy description typer
+
   useEffect(() => {
-    if (!showSplash && isTyping) { // Only start typing after splash screen is gone
-      const fullText = "Full-stack software engineer with an MS in Computer Science from Stevens Institute of Technology, currently interning at Curantis Solutions. Proven experience delivering scalable microservices, AI-powered RAG systems, and computer vision solutions that create measurable impact. Driven by curiosity and a focus on building technology that's practical, efficient, and genuinely useful —currently developing FlyEasy, a smarter way to help travelers find the cheapest flights with AI-driven insights";
-      
-      if (typedText.length < fullText.length) {
-        const timeout = setTimeout(() => {
-          setTypedText(fullText.slice(0, typedText.length + 1));
-        }, 8);
-        return () => clearTimeout(timeout);
-      } else if (typedText.length === fullText.length) {
-        setIsTyping(false);
-      }
-    }
-  }, [isTyping, showSplash, typedText]);
+    if (showSplash) return;
+    const titles = roleTitles;
+    const full = titles[currentRoleIndex];
+    let timeout;
+    const typeSpeed = 90;
+    const deleteSpeed = 50;
+    const pauseMs = 1200;
 
-  // Close dropdown when clicking outside
+    if (!isDeletingRole && roleText.length < full.length) {
+      timeout = setTimeout(() => {
+        setRoleText(full.slice(0, roleText.length + 1));
+      }, typeSpeed);
+    } else if (!isDeletingRole && roleText.length === full.length) {
+      timeout = setTimeout(() => {
+        setIsDeletingRole(true);
+      }, pauseMs);
+    } else if (isDeletingRole && roleText.length > 0) {
+      timeout = setTimeout(() => {
+        setRoleText(full.slice(0, roleText.length - 1));
+      }, deleteSpeed);
+    } else if (isDeletingRole && roleText.length === 0) {
+      setIsDeletingRole(false);
+      setCurrentRoleIndex((currentRoleIndex + 1) % titles.length);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [showSplash, roleText, isDeletingRole, currentRoleIndex, roleTitles]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (showRolesDropdown && !event.target.closest('.roles-dropdown')) {
@@ -58,7 +71,6 @@ export default function SahilPortfolio() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showRolesDropdown]);
 
-  // Smooth scrolling function
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -66,7 +78,6 @@ export default function SahilPortfolio() {
     }
   };
 
-  // Contact form validation
   const validateForm = () => {
     const errors = {};
     
@@ -91,7 +102,6 @@ export default function SahilPortfolio() {
     return errors;
   };
 
-  // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setContactForm(prev => ({
@@ -99,7 +109,6 @@ export default function SahilPortfolio() {
       [name]: value
     }));
     
-    // Clear error when user starts typing
     if (formErrors[name]) {
       setFormErrors(prev => ({
         ...prev,
@@ -107,15 +116,12 @@ export default function SahilPortfolio() {
       }));
     }
   };
-
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     const errors = validateForm();
     
     if (Object.keys(errors).length === 0) {
       setFormSubmitted(true);
-      // Reset form after 3 seconds
       setTimeout(() => {
         setContactForm({
           name: '',
@@ -130,7 +136,6 @@ export default function SahilPortfolio() {
     }
   };
 
-  // ---------- Experience data ----------
   const experiences = [
     {
       company: "Curantis Solutions",
@@ -181,7 +186,6 @@ export default function SahilPortfolio() {
     },
   ];
 
-  // ---------- Education data ----------
   const education = [
     {
       school: "Stevens Institute of Technology",
@@ -201,7 +205,6 @@ export default function SahilPortfolio() {
     },
   ];
 
-  // ---------- Skills (grouped) ----------
   const skills = {
     "Programming Languages": ["Go", "Python", "JavaScript", "Java", "C/C++", "SQL"],
     "Frameworks & Libraries": [
@@ -219,8 +222,6 @@ export default function SahilPortfolio() {
     "DevOps & Tools": ["Docker", "Jenkins", "Git/GitHub", "Selenium", "REST APIs", "CI/CD"],
   };
 
-  // Splash state
-
   useEffect(() => {
     if (showSplash) {
       const prev = document.body.style.overflow;
@@ -233,7 +234,6 @@ export default function SahilPortfolio() {
     }
   }, [showSplash]);
 
-  // Background canvas (particles + mouse glow)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || typeof window === "undefined") return;
@@ -241,7 +241,6 @@ export default function SahilPortfolio() {
     const ctx = canvas.getContext("2d");
     let animationFrameId;
 
-    // Mouse state
     const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2, active: false };
   
     const handleMove = (e) => {
@@ -254,7 +253,6 @@ export default function SahilPortfolio() {
     window.addEventListener("mousemove", handleMove);
     window.addEventListener("mouseleave", handleLeave);
   
-    // Particles
     const particles = Array.from({ length: 50 }, () => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
@@ -283,15 +281,12 @@ export default function SahilPortfolio() {
 
       ctx.fillStyle = "rgba(255,255,255,0.7)";
       particles.forEach((p) => {
-        // Continuous movement without mouse interaction
         p.x += p.speedX;
         p.y += p.speedY;
         
-        // Add subtle random movement
         p.speedX += (Math.random() - 0.5) * 0.1;
         p.speedY += (Math.random() - 0.5) * 0.1;
         
-        // Mouse interaction (optional enhancement)
         if (mouse.active) {
           const dx = p.x - mouse.x;
           const dy = p.y - mouse.y;
@@ -304,8 +299,7 @@ export default function SahilPortfolio() {
             p.speedY += (dy / d) * force * 0.3;
           }
         }
-        
-        // Damping and boundary handling
+
         p.speedX *= 0.99;
         p.speedY *= 0.99;
         if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
@@ -328,14 +322,13 @@ export default function SahilPortfolio() {
       window.removeEventListener("mouseleave", handleLeave);
     };
   }, []);
-  // Card style (reused)
+
   const card =
     "p-4 rounded-md ring-1 transition-transform duration-300 " +
     "bg-slate-900/20 ring-slate-700/30 " +
     "hover:scale-[1.03] hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-fuchsia-500/10 " +
     "hover:ring-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/10 hover:text-white";
 
-  // Project images data
   const projectImages = {
     surroundshield: [
       "/ss/Untitled design.png",
@@ -348,14 +341,13 @@ export default function SahilPortfolio() {
       "/spendwise/Goal Tracker(Add_edit).png"
     ],
     imageAuth: [
-      "/image auth/st.webp",
-      "/image auth/Screenshot 2025-08-10 at 4.58.31 PM.png"
+      "/image auth/st.png",
+      "/image auth/Screenshot 2025-08-10 at 4.58.31 PM.png"
     ]
   };
 
 
 
-  // Slideshow navigation functions
   const nextImage = (projectKey) => {
     setCurrentImageIndex((prev) => ({
       ...prev,
@@ -370,7 +362,6 @@ export default function SahilPortfolio() {
     }));
   };
 
-  // Swipe functions for mobile
   const handleTouchStart = (e) => {
     setTouchStart({
       x: e.targetTouches[0].clientX,
@@ -394,35 +385,26 @@ export default function SahilPortfolio() {
     
     if (isHorizontalSwipe && Math.abs(distanceX) > 50) {
       if (distanceX > 0) {
-        // Swipe left - next image
         nextImage(projectKey);
       } else {
-        // Swipe right - previous image
         prevImage(projectKey);
       }
     }
     
-    // Reset touch positions
     setTouchStart({ x: 0, y: 0 });
     setTouchEnd({ x: 0, y: 0 });
   };
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-slate-100 antialiased overflow-hidden">
-      {/* Ruled Notebook Background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        {/* Graph paper squares */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-[size:25px_25px]"></div>
-        {/* Ruled lines */}
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(148,163,184,0.12)_1px,transparent_1px)] bg-[size:100%_25px]"></div>
-        {/* Darker texture overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30"></div>
       </div>
       
-      {/* Background canvas */}
       <canvas ref={canvasRef} className="fixed inset-0 z-0 pointer-events-none" />
 
-      {/* Splash */}
       <motion.div
         initial={{ opacity: 1 }}
         animate={{ opacity: showSplash ? 1 : 0 }}
@@ -437,26 +419,25 @@ export default function SahilPortfolio() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-white text-3xl md:text-5xl font-light tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)]"
-            style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}
+            
           >
-            Welcome to <span className="opacity-90 font-medium"  style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}>Sahil's Portfolio</span>
+            Welcome to <span className="opacity-90 font-medium">Sahil's Portfolio</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.9 }}
             transition={{ delay: 0.3, duration: 0.6 }}
             className="mt-3 md:mt-4 text-white/90 font-light"
-            style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}
           >
             Building reliable, scalable, and user-focused software solutions.
           </motion.p>
         </div>
       </motion.div>
 
-      {/* Fixed top bar - Simple Futuristic Design */}
+      
       <div className="fixed top-0 left-0 right-0 z-50">
         <div className="w-full px-6 py-4 flex items-center justify-between bg-gradient-to-r from-black/20 via-black/10 to-black/20 backdrop-blur-xl border-b border-white/5">
-          {/* Desktop Navigation */}
+          
           <nav className="hidden md:flex items-center gap-8 text-sm">
             <button onClick={() => scrollToSection('about')} className="text-white/70 hover:text-white transition-colors duration-300 relative group">
               About
@@ -488,7 +469,7 @@ export default function SahilPortfolio() {
             </a>
           </nav>
 
-          {/* Mobile Hamburger Menu */}
+          
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -502,7 +483,7 @@ export default function SahilPortfolio() {
             </button>
           </div>
 
-          {/* Social Links */}
+          
           <div className="flex items-center gap-2">
             <a href="mailto:pambhars99@gmail.com" className="w-9 h-9 grid place-items-center bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 border border-red-400/30 hover:border-red-400/50 rounded-lg transition-all duration-300 group">
               <img src="/gmail.png" alt="Email" className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
@@ -519,7 +500,7 @@ export default function SahilPortfolio() {
           </div>
         </div>
 
-        {/* Mobile Menu Dropdown */}
+        
         {isMobileMenuOpen && (
           <div className="md:hidden bg-gradient-to-b from-black/95 to-black/90 backdrop-blur-xl border-t border-white/5 relative z-40">
             <nav className="w-full px-6 py-4 flex flex-col gap-4 text-sm">
@@ -542,7 +523,7 @@ export default function SahilPortfolio() {
         )}
       </div>
 
-      {/* Snap container (one full-screen section at a time) */}
+      
       <motion.div
         initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: showSplash ? 0 : 1, y: showSplash ? 6 : 0 }}
@@ -550,17 +531,23 @@ export default function SahilPortfolio() {
         className="relative z-10 w-full h-screen overflow-y-auto md:snap-y md:snap-mandatory"
       >
         <div className="w-full max-w-5xl mx-auto p-6 pt-20 md:pt-12">
-          {/* ===== About ===== */}
+
           <section id="about" className="md:snap-start min-h-screen flex items-center overflow-y-auto">
             <div className="w-full flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10 p-4 pt-8 md:pt-4">
               <div className="flex-shrink-0 w-48 h-48 md:w-56 md:h-56 rounded-2xl overflow-hidden ring-1 ring-slate-600/50">
               <img src={photo} alt="Sahil Pambhar" className="w-full h-full object-cover" />
-              </div>
+            </div>
               <div className="flex-1 min-w-0 flex flex-col">
                 <h1 className="text-white text-2xl md:text-4xl font-bold tracking-tight">
                   Sahil Dineshbhai Pambhar
                 </h1>
-                <div className="relative mt-2 roles-dropdown">
+                <div className="relative mt-2">
+                  <div className="text-base md:text-lg font-medium text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-cyan-300 tracking-tight min-h-[28px] md:min-h-[32px]">
+                    {roleText}
+                    <span className="ml-0.5 text-cyan-300/80 animate-pulse">|</span>
+                  </div>
+                </div>
+                <div className="relative mt-3 roles-dropdown">
                   <button
                     onClick={() => setShowRolesDropdown(!showRolesDropdown)}
                     className="text-xs px-3 py-1 rounded-full bg-green-500/20 border border-green-400/30 text-green-300 font-medium hover:bg-green-500/30 hover:border-green-400/50 transition-all duration-300 cursor-pointer flex items-center gap-1"
@@ -574,23 +561,18 @@ export default function SahilPortfolio() {
                       <div className="text-xs text-slate-400 mb-3 font-medium">Roles I'm actively seeking:</div>
                       <div className="space-y-2">
                         <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors duration-200">
-                          <span className="text-cyan-400 hover:animate-spin transition-transform duration-300">⚡</span>
                           <span className="text-white text-sm">Full Stack Software Engineer</span>
                         </div>
                         <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors duration-200">
-                          <span className="text-purple-400 hover:animate-spin transition-transform duration-300">🤖</span>
                           <span className="text-white text-sm">AI/ML Engineer</span>
                         </div>
                         <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors duration-200">
-                          <span className="text-green-400 hover:animate-spin transition-transform duration-300">💬</span>
                           <span className="text-white text-sm">Prompt Engineer</span>
                         </div>
                         <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors duration-200">
-                          <span className="text-blue-400 hover:animate-spin transition-transform duration-300">🔍</span>
                           <span className="text-white text-sm">Computer Vision Engineer</span>
                         </div>
                         <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors duration-200">
-                          <span className="text-orange-400 hover:animate-spin transition-transform duration-300">☁️</span>
                           <span className="text-white text-sm">Cloud/DevOps Engineer</span>
                         </div>
                       </div>
@@ -602,9 +584,8 @@ export default function SahilPortfolio() {
                     </div>
                   )}
                 </div>
-                <div className="mt-2 text-slate-300 max-w-xl text-sm md:text-base min-h-[120px] md:min-h-[100px]">
-                  {typedText}
-                  {isTyping && <span className="animate-pulse">|</span>}
+                <div className="mt-2 text-slate-300 max-w-xl text-sm md:text-base">
+                  Full-stack software engineer with an MS in Computer Science from Stevens Institute of Technology, currently interning at Curantis Solutions. Proven experience delivering scalable microservices, AI-powered RAG systems, and computer vision solutions that create measurable impact. Driven by curiosity and a focus on building technology that's practical, efficient, and genuinely useful —currently developing FlyEasy, a smarter way to help travelers find the cheapest flights with AI-driven insights.
                 </div>
                 <div className="mt-8 flex flex-col gap-4">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -634,15 +615,15 @@ export default function SahilPortfolio() {
                       </div>
                     </div>
                     
-                    <div className="group relative">
+                    <div className="group relative md:col-span-2">
                       <div className="absolute inset-0 bg-gradient-to-br from-red-400/20 via-transparent to-pink-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
                       <div className="relative flex items-center gap-4 p-4 bg-white/5 backdrop-blur-3xl border border-white/10 group-hover:border-white/20 group-hover:bg-white/8 transition-all duration-500 rounded-3xl h-16 shadow-2xl shadow-black/20">
                         <div className="w-10 h-10 grid place-items-center bg-gradient-to-br from-red-400/20 to-pink-500/20 backdrop-blur-xl border border-white/20 rounded-2xl group-hover:scale-110 group-hover:bg-gradient-to-br group-hover:from-red-400/30 group-hover:to-pink-500/30 transition-all duration-500 flex-shrink-0">
                           <span className="text-white text-lg">✉️</span>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs text-white/50 uppercase tracking-wider font-medium">Email</p>
-                          <a href="mailto:pambhars99@gmail.com" className="text-xs text-white font-semibold hover:text-cyan-300 transition-colors duration-300 truncate block">
+                          <p className="text-[10px] md:text-xs text-white/50 uppercase tracking-wider font-medium">Email</p>
+                          <a href="mailto:pambhars99@gmail.com" className="text-[10px] md:text-sm text-white font-semibold hover:text-cyan-300 transition-colors duration-300 whitespace-nowrap overflow-hidden text-ellipsis leading-tight">
                             pambhars99@gmail.com
                           </a>
                         </div>
@@ -654,7 +635,7 @@ export default function SahilPortfolio() {
             </div>
           </section>
 
-          {/* ===== Experience ===== */}
+
           <section id="experience" className="md:snap-start min-h-screen flex items-center overflow-y-auto mt-12 md:mt-0">
             <div className="w-full bg-slate-800/30 rounded-2xl p-4 md:p-6 backdrop-blur-sm ring-1 ring-slate-700/40 overflow-y-auto max-h-full">
               <h2 className="text-xl font-semibold">Experience</h2>
@@ -672,10 +653,8 @@ export default function SahilPortfolio() {
                               alt={exp.company}
                               className="w-8 h-8 rounded-md object-contain bg-slate-800/60 ring-1 ring-slate-700/40 flex-shrink-0"
                               onError={(e) => {
-                                console.log('Failed to load logo:', exp.logo);
-                                // e.currentTarget.style.display = "none";
+                                e.currentTarget.style.display = "none";
                               }}
-                              onLoad={() => console.log('Successfully loaded logo:', exp.logo)}
                             />
                             <div className="min-w-0 flex-1">
                               <div className="font-medium text-sm md:text-base">{exp.company}</div>
@@ -700,7 +679,7 @@ export default function SahilPortfolio() {
             </div>
           </section>
 
-          {/* ===== Education & Skills ===== */}
+
           <section id="education" className="md:snap-start min-h-screen flex items-center overflow-y-auto mt-12 md:mt-0">
             <div className="w-full bg-slate-800/30 rounded-2xl p-4 md:p-6 backdrop-blur-sm ring-1 ring-slate-700/40 overflow-y-auto max-h-full">
               <h2 className="text-lg font-semibold">Education & Skills</h2>
@@ -740,9 +719,8 @@ export default function SahilPortfolio() {
                   </li>
                 ))}
               </ul>
-              </div>
+            </div>
               
-              {/* Skills Section */}
               <div className="mt-8">
                 <h3 className="text-lg font-semibold mb-4">Skills</h3>
                 <div className="space-y-4">
@@ -754,21 +732,21 @@ export default function SahilPortfolio() {
                           <span key={s} className="text-xs px-2 py-1 rounded bg-slate-700/40 ring-1 ring-slate-700/40 transition">
                             {s}
                           </span>
-                        ))}
-                      </div>
-                    </div>
+                ))}
+              </div>
+            </div>
                   ))}
                 </div>
               </div>
             </div>
           </section>
 
-          {/* ===== Projects ===== */}
+
           <section id="projects" className="md:snap-start min-h-screen flex items-center overflow-y-auto mt-12 md:mt-0">
             <div className="w-full bg-slate-800/30 rounded-2xl p-4 md:p-6 backdrop-blur-sm ring-1 ring-slate-700/40 overflow-y-auto max-h-full">
               <h2 className="text-xl font-semibold">Projects</h2>
               <div className="space-y-8 md:space-y-8 mt-4">
-                {/* SurroundShield */}
+                
                 <div className="p-4 rounded-md ring-1 transition-transform duration-300 bg-slate-900/20 ring-slate-700/30 hover:scale-[1.02] hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-fuchsia-500/10 hover:ring-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/10 hover:text-white">
                   <div className="flex flex-col md:flex-row gap-3 md:gap-4">
                     <div 
@@ -812,23 +790,25 @@ export default function SahilPortfolio() {
                         </a>
                       </div>
                       <p className="text-sm text-slate-300 mb-3">
-                        AI safety app — React, Node, Llama 3. Personalized risk alerts with Databricks-finetuned LLM.
+                        AI-powered safety application that delivers personalized risk alerts by analyzing location and health metrics —
+                        protecting users from extreme weather, pollution spikes, and natural disasters. Fine-tuned and integrated Llama 3.3
+                        via Databricks Playground; 95% precision in recommendations.
                       </p>
                       <div className="flex flex-wrap gap-2">
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">React</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Node.js</span>
-                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Express</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Python</span>
-                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Llama 3</span>
-                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Databricks</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Flask</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">MongoDB</span>
-                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Socket.io</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Llama 3.3</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Databricks</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">REST API</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* SpendWise */}
+                
                 <div className="p-4 rounded-md ring-1 transition-transform duration-300 bg-slate-900/20 ring-slate-700/30 hover:scale-[1.02] hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-fuchsia-500/10 hover:ring-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/10 hover:text-white">
                   <div className="flex flex-col md:flex-row gap-3 md:gap-4">
                     <div 
@@ -872,31 +852,52 @@ export default function SahilPortfolio() {
                         </a>
                       </div>
                       <p className="text-sm text-slate-300 mb-3">
-                        Finance tracker — Django, React, MySQL. Users set goals and monitor spending via gamified dashboards.
+                        Personal finance budgeting with gamified goal tracking, interactive dashboards, and spending limits. Used by 15
+                        beta users with a 40% increase in goal completion. Backend optimized with REST APIs and async DB access.
                       </p>
                       <div className="flex flex-wrap gap-2">
-                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Django</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">React</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Django</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">MySQL</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Python</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Chart.js</span>
-                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Bootstrap</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">REST API</span>
-                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">CRUD</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Async IO</span>
                       </div>
                     </div>
                   </div>
             </div>
 
-                {/* Image Authenticity Detector */}
+                
                 <div className="p-4 rounded-md ring-1 transition-transform duration-300 bg-slate-900/20 ring-slate-700/30 hover:scale-[1.02] hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-fuchsia-500/10 hover:ring-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/10 hover:text-white">
                   <div className="flex flex-col md:flex-row gap-3 md:gap-4">
-                    <div className="flex-shrink-0">
+                    <div 
+                      className="flex-shrink-0 relative"
+                      onTouchStart={handleTouchStart}
+                      onTouchMove={handleTouchMove}
+                      onTouchEnd={() => handleTouchEnd('imageAuth')}
+                    >
                       <img 
-                        src="/image auth/Screenshot 2025-08-10 at 4.58.31 PM.png" 
-                        alt="Image Authenticity Detector" 
+                        src={projectImages.imageAuth[currentImageIndex.imageAuth]} 
+                        alt="Image Authenticity Detector"
                         className="w-full h-40 md:w-64 md:h-40 rounded-lg object-cover ring-1 ring-slate-600/50"
+                        onError={(e) => { e.currentTarget.src = projectImages.imageAuth[0]; }}
                       />
+                      {projectImages.imageAuth.length > 1 && (
+                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+                          {projectImages.imageAuth.map((_, index) => (
+                            <button
+                              key={index}
+                              onClick={() => setCurrentImageIndex(prev => ({ ...prev, imageAuth: index }))}
+                              className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-125 shadow-lg ${
+                                index === currentImageIndex.imageAuth 
+                                  ? 'bg-white ring-2 ring-black/20' 
+                                  : 'bg-black/70 hover:bg-black/90'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-2">
@@ -912,17 +913,17 @@ export default function SahilPortfolio() {
                         </a>
                       </div>
                       <p className="text-sm text-slate-300 mb-3">
-                        Detects AI-generated images using PyTorch and OpenCV. Benchmarked across datasets with strong evaluation.
+                        Distinguishes real vs AI-generated images with 89% accuracy, trained on 10,000 images. Managed full pipeline —
+                        data prep, model tuning, predictions, and evaluation — reducing preprocessing time by 80%.
                       </p>
                       <div className="flex flex-wrap gap-2">
-                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">PyTorch</span>
-                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">OpenCV</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Python</span>
-                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">TensorFlow</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">PyTorch</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">scikit-learn</span>
+                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">OpenCV</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">NumPy</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Pandas</span>
                         <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Matplotlib</span>
-                        <span className="text-xs px-2 py-1 rounded bg-slate-800/50 ring-1 ring-slate-700/40">Deep Learning</span>
                       </div>
                     </div>
                   </div>
@@ -931,12 +932,12 @@ export default function SahilPortfolio() {
           </div>
         </section>
 
-        {/* ===== Contact Me ===== */}
+        
         <section id="contact" className="md:snap-start min-h-screen flex items-center overflow-y-auto mt-8 md:mt-0">
           <div className="w-full bg-slate-800/30 rounded-2xl p-4 md:p-6 backdrop-blur-sm ring-1 ring-slate-700/40 overflow-y-auto max-h-full">
             <h2 className="text-xl font-semibold mb-6">Contact Me</h2>
             <div className="grid md:grid-cols-2 gap-6">
-              {/* Contact Information */}
+              
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-white">Get In Touch</h3>
                 <p className="text-slate-300 text-sm md:text-base">
@@ -950,7 +951,7 @@ export default function SahilPortfolio() {
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm text-slate-400">Email</p>
-                      <a href="mailto:pambhars99@gmail.com" className="text-white hover:text-cyan-400 transition-colors duration-300 text-sm break-all">
+                      <a href="mailto:pambhars99@gmail.com" className="text-white hover:text-cyan-400 transition-colors duration-300 text-sm whitespace-nowrap overflow-hidden text-ellipsis">
                         pambhars99@gmail.com
                       </a>
                     </div>
@@ -994,11 +995,11 @@ export default function SahilPortfolio() {
                 </div>
               </div>
               
-              {/* Contact Form */}
+              
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-white">Send a Message</h3>
                 
-                {/* Success Message */}
+                
                 {formSubmitted && (
                   <div className="p-4 bg-green-500/20 border border-green-400/30 rounded-lg">
                     <p className="text-green-400 text-sm font-medium">Message sent successfully!</p>
@@ -1090,11 +1091,11 @@ export default function SahilPortfolio() {
           </div>
         </section>
 
-        {/* Footer (mini) */}
+        
         <section className="md:snap-start min-h-screen flex items-center justify-center">
           <footer className="text-center text-slate-400 text-sm">
             <div>Designed & built by Sahil</div>
-          </footer>
+        </footer>
         </section>
       </div>
       </motion.div>

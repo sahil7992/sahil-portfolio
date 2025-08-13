@@ -3,9 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global Space Mono font */
+/* Global font */
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Manrope', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* DotGothic16 font for specific elements */
@@ -53,4 +53,31 @@ animation: gradient-move 6s ease infinite;
     background-size: 800% 800%;
     animation: gradient-bg 6s ease infinite;
   }
+
+/* Matte texture and vignette overlays */
+.matte-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 3px 3px, 7px 7px;
+  background-position: 0 0, 1px 1px;
+  opacity: 0.15;
+}
+
+.matte-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(1200px 600px at 50% 120%, rgba(0,0,0,0.55), transparent 60%),
+              radial-gradient(800px 400px at -10% -10%, rgba(0,0,0,0.5), transparent 60%),
+              radial-gradient(800px 400px at 110% -10%, rgba(0,0,0,0.5), transparent 60%);
+  mix-blend-mode: multiply;
+}
+
+/* Aurora overlay removed as requested */
   
