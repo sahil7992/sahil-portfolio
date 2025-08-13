@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 export default function SahilPortfolio() {
-  const resumePdf = "/Sahil_Pambhar_Resume25NAZ.pdf";
-  const photo = "/1000087301 2.JPG";
+  const publicUrl = process.env.PUBLIC_URL || "";
+  const assetPath = (p) => `${publicUrl}${p}`;
+  const resumePdf = assetPath("/Sahil_Pambhar_Resume25NAZ.pdf");
+  const photo = assetPath("/1000087301 2.JPG");
   const canvasRef = useRef(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState({
@@ -142,7 +144,7 @@ export default function SahilPortfolio() {
       role: "Software Development Intern",
       location: "Addison, TX",
       dates: "06/2025 – Present",
-      logo: "/curantis_solutions_logo.jpeg",
+      logo: assetPath("/curantis_solutions_logo.jpeg"),
       bullets: [
         "Engineered a Go backend service to auto-select report logic based on benefit types (Medicare/Medicaid), improving eligibility accuracy.",
         "Built Angular feature so patients can access/edit insurance policy numbers, reducing ops overhead.",
@@ -154,7 +156,7 @@ export default function SahilPortfolio() {
       role: "Software Developer Intern",
       location: "New York, NY",
       dates: "05/2024 – 08/2024",
-      logo: "/bluesap_logo.jpg",
+      logo: assetPath("/bluesap_logo.jpg"),
       bullets: [
         "Revamped React dashboard UX; improved perceived load by ~35%.",
         "Optimized Flask microservice with in-memory caching; cut API latency ~25% under concurrency.",
@@ -166,7 +168,7 @@ export default function SahilPortfolio() {
       role: "Full-stack Developer",
       location: "Surat, Gujarat, India",
       dates: "12/2022 – 07/2023",
-      logo: "/vrutti1_logo.jpeg",
+      logo: assetPath("/vrutti1_logo.jpeg"),
       bullets: [
         "Built computer-vision DFM validation for PCBs; 91% defect-detection accuracy, ~20% fewer manufacturing defects.",
         "Set up Jenkins CI/CD; boosted delivery cadence ~80%, cut deploy time from hours to minutes.",
@@ -178,7 +180,7 @@ export default function SahilPortfolio() {
       role: "Summer Intern",
       location: "Surat, Gujarat, India",
       dates: "06/2022 – 07/2022",
-      logo: "/dotcom_iot_llp_logo.jpeg",
+      logo: assetPath("/dotcom_iot_llp_logo.jpeg"),
       bullets: [
         "Contributed to defect detection in metal pipe welding; +15% accuracy using supervised learning on real data.",
         "Built foundations in NumPy, Pandas, Matplotlib, scikit-learn for practical ML workflows.",
@@ -192,7 +194,7 @@ export default function SahilPortfolio() {
       degree: "M.S. in Computer Science",
       location: "Hoboken, NJ",
       dates: "09/2023 – 05/2025",
-      logo: "/logos/stevens.png",
+      logo: assetPath("/logos/stevens.png"),
       bullets: [],
     },
     {
@@ -200,7 +202,7 @@ export default function SahilPortfolio() {
       degree: "B.E. in Computer Science",
       location: "Gujarat, India",
       dates: "07/2019 – 06/2023",
-      logo: "/logos/gtu.png",
+      logo: assetPath("/logos/gtu.png"),
       bullets: [],
     },
   ];
@@ -331,18 +333,18 @@ export default function SahilPortfolio() {
 
   const projectImages = {
     surroundshield: [
-      "/ss/Untitled design.png",
-      "/ss/Screenshot 2025-04-02 at 9.34.25 PM.png"
+      assetPath("/ss/Untitled design.png"),
+      assetPath("/ss/Screenshot 2025-04-02 at 9.34.25 PM.png")
     ],
     spendwise: [
-      "/spendwise/a logo.png",
-      "/spendwise/dashboard (1).png",
-      "/spendwise/Goal Tracker.png",
-      "/spendwise/Goal Tracker(Add_edit).png"
+      assetPath("/spendwise/a logo.png"),
+      assetPath("/spendwise/dashboard (1).png"),
+      assetPath("/spendwise/Goal Tracker.png"),
+      assetPath("/spendwise/Goal Tracker(Add_edit).png")
     ],
     imageAuth: [
-      "/image auth/st.png",
-      "/image auth/Screenshot 2025-08-10 at 4.58.31 PM.png"
+      assetPath("/image auth/st.png"),
+      assetPath("/image auth/Screenshot 2025-08-10 at 4.58.31 PM.png")
     ]
   };
 
@@ -486,16 +488,16 @@ export default function SahilPortfolio() {
           
           <div className="flex items-center gap-2">
             <a href="mailto:pambhars99@gmail.com" className="w-9 h-9 grid place-items-center bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 border border-red-400/30 hover:border-red-400/50 rounded-lg transition-all duration-300 group">
-              <img src="/gmail.png" alt="Email" className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+              <img src={assetPath("/gmail.png")} alt="Email" className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
             </a>
             <a href="https://linkedin.com/in/sp3030" target="_blank" rel="noreferrer" className="w-9 h-9 grid place-items-center bg-gradient-to-r from-blue-500/20 to-blue-600/20 hover:from-blue-500/30 hover:to-blue-600/30 border border-blue-400/30 hover:border-blue-400/50 rounded-lg transition-all duration-300 group">
-              <img src="/linkedin.png" alt="LinkedIn" className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+              <img src={assetPath("/linkedin.png")} alt="LinkedIn" className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
             </a>
             <a href="https://github.com/sahil7992" target="_blank" rel="noreferrer" className="w-9 h-9 grid place-items-center bg-gradient-to-r from-gray-500/20 to-gray-600/20 hover:from-gray-500/30 hover:to-gray-600/30 border border-gray-400/30 hover:border-gray-400/50 rounded-lg transition-all duration-300 group">
-              <img src="/logo.png" alt="GitHub" className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+              <img src={assetPath("/logo.png")} alt="GitHub" className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
             </a>
             <a href="https://leetcode.com/u/Sahilpambhar6555/" target="_blank" rel="noreferrer" className="w-9 h-9 grid place-items-center bg-gradient-to-r from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30 border border-yellow-400/30 hover:border-yellow-400/50 rounded-lg transition-all duration-300 group">
-              <img src="/leetcode.png" alt="LeetCode" className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+              <img src={assetPath("/leetcode.png")} alt="LeetCode" className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
             </a>
           </div>
         </div>
@@ -785,7 +787,7 @@ export default function SahilPortfolio() {
                           rel="noreferrer"
                           className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-1 bg-gradient-to-r from-cyan-500/20 to-fuchsia-500/20 hover:from-cyan-500/30 hover:to-fuchsia-500/30 border border-cyan-400/30 hover:border-cyan-400/50 rounded-lg transition-all duration-300 text-xs md:text-sm text-white/90 hover:text-white"
                         >
-                          <img src="/github.png" alt="GitHub" className="w-3 h-3 md:w-4 md:h-4" />
+                          <img src={assetPath("/github.png")} alt="GitHub" className="w-3 h-3 md:w-4 md:h-4" />
                           <span>View Code</span>
                         </a>
                       </div>
@@ -847,7 +849,7 @@ export default function SahilPortfolio() {
                           rel="noreferrer"
                           className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-1 bg-gradient-to-r from-cyan-500/20 to-fuchsia-500/20 hover:from-cyan-500/30 hover:to-fuchsia-500/30 border border-cyan-400/30 hover:border-cyan-400/50 rounded-lg transition-all duration-300 text-xs md:text-sm text-white/90 hover:text-white"
                         >
-                          <img src="/github.png" alt="GitHub" className="w-3 h-3 md:w-4 md:h-4" />
+                          <img src={assetPath("/github.png")} alt="GitHub" className="w-3 h-3 md:w-4 md:h-4" />
                           <span>View Code</span>
                         </a>
                       </div>
@@ -908,7 +910,7 @@ export default function SahilPortfolio() {
                           rel="noreferrer"
                           className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-1 bg-gradient-to-r from-cyan-500/20 to-fuchsia-500/20 hover:from-cyan-500/30 hover:to-fuchsia-500/30 border border-cyan-400/30 hover:border-cyan-400/50 rounded-lg transition-all duration-300 text-xs md:text-sm text-white/90 hover:text-white"
                         >
-                          <img src="/github.png" alt="GitHub" className="w-3 h-3 md:w-4 md:h-4" />
+                          <img src={assetPath("/github.png")} alt="GitHub" className="w-3 h-3 md:w-4 md:h-4" />
                           <span>View Code</span>
                         </a>
                       </div>
@@ -947,7 +949,7 @@ export default function SahilPortfolio() {
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 grid place-items-center bg-gradient-to-r from-red-500/20 to-red-600/20 border border-red-400/30 rounded-lg flex-shrink-0">
-                      <img src="/gmail.png" alt="Email" className="w-5 h-5" />
+                      <img src={assetPath("/gmail.png")} alt="Email" className="w-5 h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm text-slate-400">Email</p>
@@ -959,7 +961,7 @@ export default function SahilPortfolio() {
                   
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 grid place-items-center bg-gradient-to-r from-blue-500/20 to-blue-600/20 border border-blue-400/30 rounded-lg flex-shrink-0">
-                      <img src="/linkedin.png" alt="LinkedIn" className="w-5 h-5" />
+                      <img src={assetPath("/linkedin.png")} alt="LinkedIn" className="w-5 h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm text-slate-400">LinkedIn</p>
@@ -971,7 +973,7 @@ export default function SahilPortfolio() {
                   
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 grid place-items-center bg-gradient-to-r from-gray-500/20 to-gray-600/20 border border-gray-400/30 rounded-lg flex-shrink-0">
-                      <img src="/logo.png" alt="GitHub" className="w-5 h-5" />
+                      <img src={assetPath("/logo.png")} alt="GitHub" className="w-5 h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm text-slate-400">GitHub</p>
@@ -983,7 +985,7 @@ export default function SahilPortfolio() {
                   
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 grid place-items-center bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-400/30 rounded-lg flex-shrink-0">
-                      <img src="/leetcode.png" alt="LeetCode" className="w-5 h-5" />
+                      <img src={assetPath("/leetcode.png")} alt="LeetCode" className="w-5 h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm text-slate-400">LeetCode</p>
