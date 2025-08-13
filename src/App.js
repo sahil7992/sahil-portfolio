@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 export default function SahilPortfolio() {
   const publicUrl = process.env.PUBLIC_URL || "";
   const assetPath = (p) => `${publicUrl}${encodeURI(p)}`;
+  //
   const resumePdf = assetPath("/Sahil_Pambhar_Resume25NAZ.pdf");
-  const photo = assetPath("/IMG_7143 2.jpg");
+  const photo = assetPath("/1000087301 2.JPG");
   const canvasRef = useRef(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState({
@@ -450,7 +451,7 @@ export default function SahilPortfolio() {
               <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-fuchsia-400 transition-all duration-300 group-hover:w-full"></div>
             </button>
             <button onClick={() => scrollToSection('education')} className="text-white/70 hover:text-white transition-colors duration-300 relative group">
-              Education & Skills
+              Education
               <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-fuchsia-400 transition-all duration-300 group-hover:w-full"></div>
             </button>
             <button onClick={() => scrollToSection('projects')} className="text-white/70 hover:text-white transition-colors duration-300 relative group">
@@ -465,14 +466,14 @@ export default function SahilPortfolio() {
               href={resumePdf}
               target="_blank"
               rel="noreferrer"
-              className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-fuchsia-500/20 hover:from-cyan-500/30 hover:to-fuchsia-500/30 border border-cyan-400/30 hover:border-cyan-400/50 rounded-lg transition-all duration-300 text-white/90 hover:text-white"
+              className="px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500/20 to-fuchsia-500/20 hover:from-cyan-500/30 hover:to-fuchsia-500/30 border border-cyan-400/30 hover:border-cyan-400/50 text-white/90 hover:text-white text-sm font-medium transition-all duration-300"
             >
               Resume
             </a>
           </nav>
 
           
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="w-10 h-10 grid place-items-center bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition-all duration-300"
@@ -486,29 +487,32 @@ export default function SahilPortfolio() {
           </div>
 
           
-          <div className="flex items-center gap-2">
-            <a href="mailto:pambhars99@gmail.com" className="w-9 h-9 grid place-items-center bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 border border-red-400/30 hover:border-red-400/50 rounded-lg transition-all duration-300 group">
-              <img src={assetPath("/gmail.png")} alt="Email" className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
-            </a>
-            <a href="https://linkedin.com/in/sp3030" target="_blank" rel="noreferrer" className="w-9 h-9 grid place-items-center bg-gradient-to-r from-blue-500/20 to-blue-600/20 hover:from-blue-500/30 hover:to-blue-600/30 border border-blue-400/30 hover:border-blue-400/50 rounded-lg transition-all duration-300 group">
-              <img src={assetPath("/linkedin.png")} alt="LinkedIn" className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
-            </a>
-            <a href="https://github.com/sahil7992" target="_blank" rel="noreferrer" className="w-9 h-9 grid place-items-center bg-gradient-to-r from-gray-500/20 to-gray-600/20 hover:from-gray-500/30 hover:to-gray-600/30 border border-gray-400/30 hover:border-gray-400/50 rounded-lg transition-all duration-300 group">
-              <img src={assetPath("/logo.png")} alt="GitHub" className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
-            </a>
-            <a href="https://leetcode.com/u/Sahilpambhar6555/" target="_blank" rel="noreferrer" className="w-9 h-9 grid place-items-center bg-gradient-to-r from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30 border border-yellow-400/30 hover:border-yellow-400/50 rounded-lg transition-all duration-300 group">
-              <img src={assetPath("/leetcode.png")} alt="LeetCode" className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
-            </a>
+          <div className="flex items-center">
+            <div className="flex items-center gap-1 px-2 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.25)]">
+              <a href="https://linkedin.com/in/sp3030" target="_blank" rel="noreferrer" className="w-8 h-8 grid place-items-center rounded-full hover:bg-white/10 border border-white/10 transition-colors">
+                <img src={assetPath("/linkedin.png")} alt="LinkedIn" className="w-4 h-4" />
+              </a>
+              <a href="https://github.com/sahil7992" target="_blank" rel="noreferrer" className="w-8 h-8 grid place-items-center rounded-full hover:bg-white/10 border border-white/10 transition-colors">
+                <img src={assetPath("/logo.png")} alt="GitHub" className="w-4 h-4" />
+              </a>
+              <a href="mailto:pambhars99@gmail.com" className="w-8 h-8 grid place-items-center rounded-full hover:bg-white/10 border border-white/10 transition-colors">
+                <img src={assetPath("/gmail.png")} alt="Email" className="w-4 h-4" />
+              </a>
+              <a href="https://leetcode.com/u/Sahilpambhar6555/" target="_blank" rel="noreferrer" className="w-8 h-8 grid place-items-center rounded-full hover:bg-white/10 border border-white/10 transition-colors">
+                <img src={assetPath("/leetcode.png")} alt="LeetCode" className="w-4 h-4" />
+              </a>
+            </div>
           </div>
         </div>
-
+      </div>
+ 
         
         {isMobileMenuOpen && (
           <div className="md:hidden bg-gradient-to-b from-black/95 to-black/90 backdrop-blur-xl border-t border-white/5 relative z-40">
             <nav className="w-full px-6 py-4 flex flex-col gap-4 text-sm">
               <button onClick={() => { scrollToSection('about'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">About</button>
               <button onClick={() => { scrollToSection('experience'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Experience</button>
-                          <button onClick={() => { scrollToSection('education'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Education & Skills</button>
+                          <button onClick={() => { scrollToSection('education'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Education</button>
               <button onClick={() => { scrollToSection('projects'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Projects</button>
               <button onClick={() => { scrollToSection('contact'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Contact</button>
               <a
@@ -523,7 +527,6 @@ export default function SahilPortfolio() {
             </nav>
           </div>
         )}
-      </div>
 
       
       <motion.div
@@ -624,8 +627,8 @@ export default function SahilPortfolio() {
                           <span className="text-white text-lg">✉️</span>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[10px] md:text-xs text-white/50 uppercase tracking-wider font-medium">Email</p>
-                          <a href="mailto:pambhars99@gmail.com" className="text-[10px] md:text-sm text-white font-semibold hover:text-cyan-300 transition-colors duration-300 whitespace-nowrap overflow-hidden text-ellipsis leading-tight">
+                          <p className="text-xs md:text-sm text-white/50 uppercase tracking-wider font-medium">Email</p>
+                          <a href="mailto:pambhars99@gmail.com" className="text-sm md:text-base text-white font-semibold hover:text-cyan-300 transition-colors duration-300 whitespace-nowrap overflow-hidden text-ellipsis leading-tight">
                             pambhars99@gmail.com
                           </a>
                         </div>
@@ -684,7 +687,7 @@ export default function SahilPortfolio() {
 
           <section id="education" className="md:snap-start min-h-screen flex items-center overflow-y-auto mt-12 md:mt-0">
             <div className="w-full bg-slate-800/30 rounded-2xl p-4 md:p-6 backdrop-blur-sm ring-1 ring-slate-700/40 overflow-y-auto max-h-full">
-              <h2 className="text-lg font-semibold">Education & Skills</h2>
+              <h2 className="text-lg font-semibold">Education</h2>
             <div className="relative mt-4">
                 <div className="absolute left-3 top-0 bottom-0 w-px bg-slate-700/40" />
               <ul className="space-y-4">
