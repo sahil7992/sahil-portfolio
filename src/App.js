@@ -28,6 +28,7 @@ export default function SahilPortfolio() {
   const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
   const [showSplash, setShowSplash] = useState(true);
   const roleTitles = ["Fullstack Engineer", "Software Developer Engineer", "AI/ML Engineer"];
+  const typingTimerRef = useRef(null);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [roleText, setRoleText] = useState('');
   const [isDeletingRole, setIsDeletingRole] = useState(false);
@@ -38,21 +39,23 @@ export default function SahilPortfolio() {
     if (showSplash) return;
     const titles = roleTitles;
     const full = titles[currentRoleIndex];
-    let timeout;
-    const typeSpeed = 90;
-    const deleteSpeed = 50;
-    const pauseMs = 1200;
+    if (typingTimerRef.current) {
+      clearTimeout(typingTimerRef.current);
+    }
+    const typeSpeed = 40; // faster for smoother feel
+    const deleteSpeed = 28;
+    const pauseMs = 800;
 
     if (!isDeletingRole && roleText.length < full.length) {
-      timeout = setTimeout(() => {
+      typingTimerRef.current = setTimeout(() => {
         setRoleText(full.slice(0, roleText.length + 1));
       }, typeSpeed);
     } else if (!isDeletingRole && roleText.length === full.length) {
-      timeout = setTimeout(() => {
+      typingTimerRef.current = setTimeout(() => {
         setIsDeletingRole(true);
       }, pauseMs);
     } else if (isDeletingRole && roleText.length > 0) {
-      timeout = setTimeout(() => {
+      typingTimerRef.current = setTimeout(() => {
         setRoleText(full.slice(0, roleText.length - 1));
       }, deleteSpeed);
     } else if (isDeletingRole && roleText.length === 0) {
@@ -60,7 +63,11 @@ export default function SahilPortfolio() {
       setCurrentRoleIndex((currentRoleIndex + 1) % titles.length);
     }
 
-    return () => clearTimeout(timeout);
+    return () => {
+      if (typingTimerRef.current) {
+        clearTimeout(typingTimerRef.current);
+      }
+    };
   }, [showSplash, roleText, isDeletingRole, currentRoleIndex, roleTitles]);
 
   useEffect(() => {
@@ -401,9 +408,7 @@ export default function SahilPortfolio() {
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-slate-100 antialiased overflow-hidden">
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-[size:25px_25px]"></div>
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(148,163,184,0.12)_1px,transparent_1px)] bg-[size:100%_25px]"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/30"></div>
+        <div className="absolute inset-0 bg-black"></div>
       </div>
       
       <canvas ref={canvasRef} className="fixed inset-0 z-0 pointer-events-none" />
@@ -451,7 +456,7 @@ export default function SahilPortfolio() {
               <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-fuchsia-400 transition-all duration-300 group-hover:w-full"></div>
             </button>
             <button onClick={() => scrollToSection('education')} className="text-white/70 hover:text-white transition-colors duration-300 relative group">
-              Education
+              Education & Skills
               <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-fuchsia-400 transition-all duration-300 group-hover:w-full"></div>
             </button>
             <button onClick={() => scrollToSection('projects')} className="text-white/70 hover:text-white transition-colors duration-300 relative group">
@@ -489,16 +494,16 @@ export default function SahilPortfolio() {
           
           <div className="flex items-center">
             <div className="flex items-center gap-1 px-2 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.25)]">
-              <a href="https://linkedin.com/in/sp3030" target="_blank" rel="noreferrer" className="w-8 h-8 grid place-items-center rounded-full hover:bg-white/10 border border-white/10 transition-colors">
+              <a href="https://linkedin.com/in/sp3030" target="_blank" rel="noreferrer" className="w-8 h-8 grid place-items-center rounded-full hover:bg-white/10 border border-white/10 transition-colors icon-live">
                 <img src={assetPath("/linkedin.png")} alt="LinkedIn" className="w-4 h-4" />
               </a>
-              <a href="https://github.com/sahil7992" target="_blank" rel="noreferrer" className="w-8 h-8 grid place-items-center rounded-full hover:bg-white/10 border border-white/10 transition-colors">
+              <a href="https://github.com/sahil7992" target="_blank" rel="noreferrer" className="w-8 h-8 grid place-items-center rounded-full hover:bg-white/10 border border-white/10 transition-colors icon-live">
                 <img src={assetPath("/logo.png")} alt="GitHub" className="w-4 h-4" />
               </a>
-              <a href="mailto:pambhars99@gmail.com" className="w-8 h-8 grid place-items-center rounded-full hover:bg-white/10 border border-white/10 transition-colors">
+              <a href="mailto:pambhars99@gmail.com" className="w-8 h-8 grid place-items-center rounded-full hover:bg-white/10 border border-white/10 transition-colors icon-live">
                 <img src={assetPath("/gmail.png")} alt="Email" className="w-4 h-4" />
               </a>
-              <a href="https://leetcode.com/u/Sahilpambhar6555/" target="_blank" rel="noreferrer" className="w-8 h-8 grid place-items-center rounded-full hover:bg-white/10 border border-white/10 transition-colors">
+              <a href="https://leetcode.com/u/Sahilpambhar6555/" target="_blank" rel="noreferrer" className="w-8 h-8 grid place-items-center rounded-full hover:bg-white/10 border border-white/10 transition-colors icon-live">
                 <img src={assetPath("/leetcode.png")} alt="LeetCode" className="w-4 h-4" />
               </a>
             </div>
@@ -512,7 +517,7 @@ export default function SahilPortfolio() {
             <nav className="w-full px-6 py-4 flex flex-col gap-4 text-sm">
               <button onClick={() => { scrollToSection('about'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">About</button>
               <button onClick={() => { scrollToSection('experience'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Experience</button>
-                          <button onClick={() => { scrollToSection('education'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Education</button>
+                          <button onClick={() => { scrollToSection('education'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Education & Skills</button>
               <button onClick={() => { scrollToSection('projects'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Projects</button>
               <button onClick={() => { scrollToSection('contact'); setIsMobileMenuOpen(false); }} className="text-white/70 hover:text-white py-3 text-left transition-colors duration-300 border-b border-white/5 hover:border-white/10">Contact</button>
               <a
@@ -535,13 +540,14 @@ export default function SahilPortfolio() {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="relative z-10 w-full h-screen overflow-y-auto md:snap-y md:snap-mandatory"
       >
-        <div className="w-full max-w-5xl mx-auto p-6 pt-20 md:pt-12">
+        <div className="w-full max-w-5xl mx-auto p-6 pt-20 md:pt-12 overflow-visible">
 
-          <section id="about" className="md:snap-start min-h-screen flex items-center overflow-y-auto">
-            <div className="w-full flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10 p-4 pt-8 md:pt-4">
-              <div className="flex-shrink-0 w-48 h-48 md:w-56 md:h-56 rounded-2xl overflow-hidden ring-1 ring-slate-600/50">
-              <img src={photo} alt="Sahil Pambhar" className="w-full h-full object-cover" />
-            </div>
+          <section id="about" className="md:snap-start min-h-screen flex items-center overflow-visible">
+            <div className="w-full flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10 p-4 pt-8 md:pt-4 relative overflow-visible bg-transparent">
+              <div className="relative group flex-shrink-0 w-48 h-48 md:w-56 md:h-56">
+                <div className="absolute -inset-[120px] -left-[180px] rounded-none bg-[radial-gradient(circle_at_center,rgba(75,220,166,0.18),transparent_74%)] blur-[28px] md:blur-[48px] opacity-60 pointer-events-none z-0 transition-all duration-500 group-hover:blur-[80px] group-hover:opacity-100"></div>
+                <img src={photo} alt="Sahil Pambhar" className="relative z-10 w-48 h-48 md:w-56 md:h-56 object-cover rounded-2xl shadow-[0_0_40px_10px_rgba(75,_220,_166,_0.14),_0_0_120px_18px_rgba(75,_220,_166,_0.08)] transition-shadow duration-500 hover:shadow-[0_0_120px_30px_rgba(75,_220,_166,_0.45),_0_0_260px_50px_rgba(75,_220,_166,_0.25)]" />
+              </div>
               <div className="flex-1 min-w-0 flex flex-col">
                 <h1 className="text-white text-2xl md:text-4xl font-bold tracking-tight">
                   Sahil Dineshbhai Pambhar
@@ -562,7 +568,7 @@ export default function SahilPortfolio() {
                   </button>
                   
                   {showRolesDropdown && (
-                    <div className="absolute top-full left-0 mt-2 w-80 bg-slate-900/95 backdrop-blur-xl border border-slate-700/50 rounded-xl shadow-2xl shadow-black/50 z-50 p-4">
+                <div className="absolute top-full left-0 mt-2 w-80 bg-slate-900/95 backdrop-blur-xl border border-slate-700/50 rounded-xl shadow-2xl shadow-black/50 z-50 p-4">
                       <div className="text-xs text-slate-400 mb-3 font-medium">Roles I'm actively seeking:</div>
                       <div className="space-y-2">
                         <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 transition-colors duration-200">
@@ -593,8 +599,8 @@ export default function SahilPortfolio() {
                   Full-stack software engineer with an MS in Computer Science from Stevens Institute of Technology, currently interning at Curantis Solutions. Proven experience delivering scalable microservices, AI-powered RAG systems, and computer vision solutions that create measurable impact. Driven by curiosity and a focus on building technology that's practical, efficient, and genuinely useful —currently developing FlyEasy, a smarter way to help travelers find the cheapest flights with AI-driven insights.
                 </div>
                 <div className="mt-8 flex flex-col gap-4">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="group relative">
+                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="group relative rounded-3xl">
                       <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 via-transparent to-blue-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
                       <div className="relative flex items-center gap-4 p-4 bg-white/5 backdrop-blur-3xl border border-white/10 group-hover:border-white/20 group-hover:bg-white/8 transition-all duration-500 rounded-3xl h-16 shadow-2xl shadow-black/20">
                         <div className="w-10 h-10 grid place-items-center bg-gradient-to-br from-cyan-400/20 to-blue-500/20 backdrop-blur-xl border border-white/20 rounded-2xl group-hover:scale-110 group-hover:bg-gradient-to-br group-hover:from-cyan-400/30 group-hover:to-blue-500/30 transition-all duration-500 flex-shrink-0">
@@ -607,7 +613,7 @@ export default function SahilPortfolio() {
                       </div>
                     </div>
                     
-                    <div className="group relative">
+                    <div className="group relative rounded-3xl">
                       <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 via-transparent to-emerald-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
                       <div className="relative flex items-center gap-4 p-4 bg-white/5 backdrop-blur-3xl border border-white/10 group-hover:border-white/20 group-hover:bg-white/8 transition-all duration-500 rounded-3xl h-16 shadow-2xl shadow-black/20">
                         <div className="w-10 h-10 grid place-items-center bg-gradient-to-br from-green-400/20 to-emerald-500/20 backdrop-blur-xl border border-white/20 rounded-2xl group-hover:scale-110 group-hover:bg-gradient-to-br group-hover:from-green-400/30 group-hover:to-emerald-500/30 transition-all duration-500 flex-shrink-0">
@@ -620,12 +626,12 @@ export default function SahilPortfolio() {
                       </div>
                     </div>
                     
-                    <div className="group relative md:col-span-2">
+                    <div className="group relative md:col-span-2 rounded-3xl">
                       <div className="absolute inset-0 bg-gradient-to-br from-red-400/20 via-transparent to-pink-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
                       <div className="relative flex items-center gap-4 p-4 bg-white/5 backdrop-blur-3xl border border-white/10 group-hover:border-white/20 group-hover:bg-white/8 transition-all duration-500 rounded-3xl h-16 shadow-2xl shadow-black/20">
                         <div className="w-10 h-10 grid place-items-center bg-gradient-to-br from-red-400/20 to-pink-500/20 backdrop-blur-xl border border-white/20 rounded-2xl group-hover:scale-110 group-hover:bg-gradient-to-br group-hover:from-red-400/30 group-hover:to-pink-500/30 transition-all duration-500 flex-shrink-0">
                           <span className="text-white text-lg">✉️</span>
-                        </div>
+            </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-xs md:text-sm text-white/50 uppercase tracking-wider font-medium">Email</p>
                           <a href="mailto:pambhars99@gmail.com" className="text-sm md:text-base text-white font-semibold hover:text-cyan-300 transition-colors duration-300 whitespace-nowrap overflow-hidden text-ellipsis leading-tight">
@@ -752,7 +758,7 @@ export default function SahilPortfolio() {
               <h2 className="text-xl font-semibold">Projects</h2>
               <div className="space-y-8 md:space-y-8 mt-4">
                 
-                <div className="p-4 rounded-md ring-1 transition-transform duration-300 bg-slate-900/20 ring-slate-700/30 hover:scale-[1.02] hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-fuchsia-500/10 hover:ring-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/10 hover:text-white">
+                <div className="p-4 rounded-md ring-1 transition-transform duration-300 bg-slate-900/50 ring-slate-700/40 hover:scale-[1.02] hover:text-white">
                   <div className="flex flex-col md:flex-row gap-3 md:gap-4">
                     <div 
                       className="flex-shrink-0 relative"
@@ -814,7 +820,7 @@ export default function SahilPortfolio() {
                 </div>
 
                 
-                <div className="p-4 rounded-md ring-1 transition-transform duration-300 bg-slate-900/20 ring-slate-700/30 hover:scale-[1.02] hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-fuchsia-500/10 hover:ring-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/10 hover:text-white">
+                <div className="p-4 rounded-md ring-1 transition-transform duration-300 bg-slate-900/50 ring-slate-700/40 hover:scale-[1.02] hover:text-white">
                   <div className="flex flex-col md:flex-row gap-3 md:gap-4">
                     <div 
                       className="flex-shrink-0 relative"
@@ -874,7 +880,7 @@ export default function SahilPortfolio() {
             </div>
 
                 
-                <div className="p-4 rounded-md ring-1 transition-transform duration-300 bg-slate-900/20 ring-slate-700/30 hover:scale-[1.02] hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-fuchsia-500/10 hover:ring-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/10 hover:text-white">
+                <div className="p-4 rounded-md ring-1 transition-transform duration-300 bg-slate-900/50 ring-slate-700/40 hover:scale-[1.02] hover:text-white">
                   <div className="flex flex-col md:flex-row gap-3 md:gap-4">
                     <div 
                       className="flex-shrink-0 relative"

@@ -5,7 +5,7 @@
 
 /* Global font */
 * {
-  font-family: 'Manrope', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Manrope', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* DotGothic16 font for specific elements */
@@ -54,6 +54,20 @@ animation: gradient-move 6s ease infinite;
     animation: gradient-bg 6s ease infinite;
   }
 
+/* Elevated box shadow inspired by Gradienty box-shadow tool */
+/* removed elevated shadow as requested */
+.elevated {}
+
+/* Live icon subtle pulse */
+@keyframes live-pulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(56,189,248,0)); }
+  50% { transform: scale(1.05); filter: drop-shadow(0 0 8px rgba(56,189,248,0.35)); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(56,189,248,0)); }
+}
+.icon-live {
+  animation: live-pulse 2.2s ease-in-out infinite;
+}
+
 /* Matte texture and vignette overlays */
 .matte-overlay::before {
   content: "";
@@ -77,6 +91,57 @@ animation: gradient-move 6s ease infinite;
               radial-gradient(800px 400px at -10% -10%, rgba(0,0,0,0.5), transparent 60%),
               radial-gradient(800px 400px at 110% -10%, rgba(0,0,0,0.5), transparent 60%);
   mix-blend-mode: multiply;
+}
+
+/* Plasma background (dark matte) */
+.plasma-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.plasma-overlay::before,
+.plasma-overlay::after {
+  content: "";
+  position: absolute;
+  width: 80vmax;
+  height: 80vmax;
+  border-radius: 50%;
+  filter: blur(30px); /* matte, not too smooth */
+  opacity: 0.35;
+}
+
+/* left blob: indigo/purple */
+.plasma-overlay::before {
+  left: -20vmax;
+  top: -10vmax;
+  background:
+    radial-gradient(closest-side, rgba(67,56,202,0.7), rgba(67,56,202,0) 65%),
+    radial-gradient(closest-side, rgba(147,51,234,0.6), rgba(147,51,234,0) 70%);
+  animation: plasma-move-1 20s ease-in-out infinite;
+}
+
+/* right blob: teal/cyan (dark) */
+.plasma-overlay::after {
+  right: -25vmax;
+  bottom: -15vmax;
+  background:
+    radial-gradient(closest-side, rgba(6,95,70,0.65), rgba(6,95,70,0) 65%),
+    radial-gradient(closest-side, rgba(8,145,178,0.6), rgba(8,145,178,0) 70%);
+  animation: plasma-move-2 24s ease-in-out infinite;
+}
+
+@keyframes plasma-move-1 {
+  0% { transform: translate3d(0,0,0) scale(1); }
+  50% { transform: translate3d(6vmax, 4vmax, 0) scale(1.05); }
+  100% { transform: translate3d(0,0,0) scale(1); }
+}
+
+@keyframes plasma-move-2 {
+  0% { transform: translate3d(0,0,0) scale(1); }
+  50% { transform: translate3d(-6vmax, -5vmax, 0) scale(1.08); }
+  100% { transform: translate3d(0,0,0) scale(1); }
 }
 
 /* Aurora overlay removed as requested */
