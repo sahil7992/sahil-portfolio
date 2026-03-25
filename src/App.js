@@ -93,7 +93,7 @@ export default function SahilPortfolio() {
   const experiences = [
     {
       company: "Curantis Solutions",
-      role: "Full Stack Engineer · AI · Data & BI",
+      role: "Full Stack Engineer (AI, Data)",
       location: "Addison, TX",
       dates: "06/2025 – Present",
       logo: assetPath("/curantis_solutions_logo.jpeg"),
