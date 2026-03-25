@@ -311,7 +311,7 @@ export default function SahilPortfolio() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentRoleIndex((prev) => (prev + 1) % roleTitles.length);
-    }, 3000);
+    }, 2000);
     return () => clearInterval(interval);
   }, [roleTitles.length]);
 
