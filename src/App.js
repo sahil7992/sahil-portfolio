@@ -37,20 +37,6 @@ function AnimatedCounter({ target, suffix = "", duration = 2000 }) {
   );
 }
 
-/* ── Shared animation variants ── */
-const fadeUp = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-40px" },
-  transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
-};
-
-const textReveal = {
-  initial: { opacity: 0, y: 16 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-40px" },
-  transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-};
 
 /* ════════════════════════════════════════════════════════════ */
 export default function SahilPortfolio() {
@@ -753,22 +739,12 @@ export default function SahilPortfolio() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
             {metrics.map((m, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  delay: i * 0.1,
-                  duration: 0.5,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-              >
+              <div key={i}>
                 <div className="text-4xl md:text-5xl font-black text-emerald-400 tabular-nums metric-glow">
                   <AnimatedCounter target={m.value} suffix={m.suffix} />
                 </div>
                 <p className="text-zinc-500 text-sm mt-2">{m.label}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -777,20 +753,13 @@ export default function SahilPortfolio() {
       {/* ─── EXPERIENCE ─── */}
       <section id="experience" className="section-line py-20 md:py-24">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
-          <motion.h2
-            {...textReveal}
-            className="text-3xl md:text-4xl font-black tracking-tight mb-12"
-          >
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-12">
             Experience
-          </motion.h2>
+          </h2>
           <div className="space-y-6">
             {experiences.map((exp, idx) => (
-              <motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.08, duration: 0.5 }}
                 className={`glass glass-shine p-5 md:p-6 rounded-xl transition-all duration-300 ${
                   exp.current
                     ? "!border-emerald-500/20 !bg-emerald-500/[0.04] shadow-lg shadow-emerald-500/[0.05]"
@@ -841,7 +810,7 @@ export default function SahilPortfolio() {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -850,23 +819,16 @@ export default function SahilPortfolio() {
       {/* ─── PROJECTS ─── */}
       <section id="projects" className="section-line py-20 md:py-24">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
-          <motion.h2
-            {...textReveal}
-            className="text-3xl md:text-4xl font-black tracking-tight mb-12"
-          >
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-12">
             Projects
-          </motion.h2>
+          </h2>
           <div className="space-y-8">
             {projects.map((proj, idx) => {
               const images = projectImages[proj.key];
               const imgIdx = currentImageIndex[proj.key];
               return (
-                <motion.div
+                <div
                   key={proj.key}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1, duration: 0.5 }}
                   className={`card-premium glass glass-hover glass-shine p-5 md:p-6 rounded-xl ${
                     proj.featured
                       ? "!border-emerald-500/15 ring-1 ring-emerald-500/10"
@@ -984,7 +946,7 @@ export default function SahilPortfolio() {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -997,21 +959,12 @@ export default function SahilPortfolio() {
           <div className="grid md:grid-cols-2 gap-16 md:gap-20">
             {/* Skills */}
             <div>
-              <motion.h2
-                {...textReveal}
-                className="text-3xl md:text-4xl font-black tracking-tight mb-10"
-              >
+              <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-10">
                 Skills
-              </motion.h2>
+              </h2>
               <div className="space-y-6">
-                {Object.entries(skills).map(([group, items], gIdx) => (
-                  <motion.div
-                    key={group}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: gIdx * 0.08 }}
-                  >
+                {Object.entries(skills).map(([group, items]) => (
+                  <div key={group}>
                     <div className="text-xs uppercase tracking-widest text-zinc-500 font-semibold mb-3">
                       {group}
                     </div>
@@ -1025,27 +978,20 @@ export default function SahilPortfolio() {
                         </span>
                       ))}
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
 
             {/* Education */}
             <div>
-              <motion.h2
-                {...textReveal}
-                className="text-3xl md:text-4xl font-black tracking-tight mb-10"
-              >
+              <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-10">
                 Education
-              </motion.h2>
+              </h2>
               <div className="space-y-6">
                 {education.map((ed, idx) => (
-                  <motion.div
+                  <div
                     key={idx}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: idx * 0.1 }}
                     className="glass glass-shine p-5 rounded-xl"
                   >
                     <div className="flex items-start gap-4">
@@ -1074,7 +1020,7 @@ export default function SahilPortfolio() {
                         )}
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -1085,54 +1031,29 @@ export default function SahilPortfolio() {
       {/* ─── CONTACT ─── */}
       <section id="contact" className="relative section-line py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 text-center">
-          <motion.h2
-            {...textReveal}
-            className="text-4xl md:text-6xl font-black tracking-tight"
-          >
+          <h2 className="text-4xl md:text-6xl font-black tracking-tight">
             Let's talk.
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-zinc-500 text-lg mt-4 max-w-md mx-auto"
-          >
+          </h2>
+          <p className="text-zinc-500 text-lg mt-4 max-w-md mx-auto">
             Currently exploring backend, data engineering, and full-stack
             opportunities. Based in Hoboken, NJ — open to remote, hybrid, or
             relocation.
-          </motion.p>
+          </p>
 
           {/* Big email CTA */}
-          <motion.a
+          <a
             href="mailto:pambhars99@gmail.com?subject=Opportunity%20from%20Portfolio"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
             className="email-link inline-block mt-8 text-xl md:text-2xl text-emerald-400 hover:text-emerald-300 font-semibold transition-colors"
           >
             pambhars99@gmail.com
-          </motion.a>
+          </a>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-            className="text-zinc-500 text-sm mt-2"
-          >
+          <p className="text-zinc-500 text-sm mt-2">
             (929) 302-7922
-          </motion.p>
+          </p>
 
           {/* Social links */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            className="flex items-center justify-center gap-4 mt-10"
-          >
+          <div className="flex items-center justify-center gap-4 mt-10">
             {[
               {
                 href: "https://linkedin.com/in/sp3030",
@@ -1156,16 +1077,10 @@ export default function SahilPortfolio() {
                 {link.svg}
               </a>
             ))}
-          </motion.div>
+          </div>
 
           {/* Resume button */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6 }}
-            className="mt-8"
-          >
+          <div className="mt-8">
             <a
               href={resumePdf}
               target="_blank"
@@ -1174,7 +1089,7 @@ export default function SahilPortfolio() {
             >
               Download Resume
             </a>
-          </motion.div>
+          </div>
         </div>
       </section>
 
