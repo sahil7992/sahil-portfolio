@@ -352,12 +352,16 @@ export default function SahilPortfolio() {
     }
 
     let animId;
+    const FAR = DEPTH * 0.66, MID = DEPTH * 0.33;
     function frame() {
-      ctx.fillStyle = "rgba(5, 5, 5, 0.2)";
-      ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = "rgba(190, 215, 255, 0.55)";
-      ctx.lineWidth = 1.2;
-      ctx.beginPath();
+      ctx.clearRect(0, 0, w, h);
+
+      // 3 depth layers — far (dim/short), mid, close (bright/long)
+      const layers = [
+        { minZ: FAR, trail: 6, style: "rgba(140,180,255,0.2)", width: 0.5 },
+        { minZ: MID, trail: 20, style: "rgba(170,205,255,0.4)", width: 1 },
+        { minZ: 0, trail: 45, style: "rgba(210,230,255,0.7)", width: 1.8 },
+      ];
 
       for (let i = 0; i < NUM; i++) {
         sz[i] -= SPEED;
@@ -366,14 +370,28 @@ export default function SahilPortfolio() {
           sy[i] = (Math.random() - 0.5) * h * 2;
           sz[i] = DEPTH;
         }
-        const x1 = (sx[i] / sz[i]) * 300 + cx;
-        const y1 = (sy[i] / sz[i]) * 300 + cy;
-        const x0 = (sx[i] / (sz[i] + 10)) * 300 + cx;
-        const y0 = (sy[i] / (sz[i] + 10)) * 300 + cy;
-        ctx.moveTo(x0, y0);
-        ctx.lineTo(x1, y1);
       }
-      ctx.stroke();
+
+      for (const layer of layers) {
+        ctx.strokeStyle = layer.style;
+        ctx.lineWidth = layer.width;
+        ctx.beginPath();
+        for (let i = 0; i < NUM; i++) {
+          const inLayer = layer.minZ === 0
+            ? sz[i] < MID
+            : layer.minZ === MID
+              ? sz[i] >= MID && sz[i] < FAR
+              : sz[i] >= FAR;
+          if (!inLayer) continue;
+          const x1 = (sx[i] / sz[i]) * 300 + cx;
+          const y1 = (sy[i] / sz[i]) * 300 + cy;
+          const x0 = (sx[i] / (sz[i] + layer.trail)) * 300 + cx;
+          const y0 = (sy[i] / (sz[i] + layer.trail)) * 300 + cy;
+          ctx.moveTo(x0, y0);
+          ctx.lineTo(x1, y1);
+        }
+        ctx.stroke();
+      }
       animId = requestAnimationFrame(frame);
     }
     frame();
