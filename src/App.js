@@ -371,8 +371,8 @@ export default function SahilPortfolio() {
 
     let animId;
     function frame() {
-      // Fade to pure black (rgba 0,0,0 — no gray artifacts)
-      ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+      // Fade to black — high alpha clears ghost trails fast
+      ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
       ctx.fillRect(0, 0, w, h);
 
       // Update + project
