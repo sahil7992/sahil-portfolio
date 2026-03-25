@@ -71,7 +71,7 @@ export default function SahilPortfolio() {
   });
   const glowRef = useRef(null);
   const warpRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const scrollBarRef = useRef(null);
 
   /* ── Data ── */
   const roleTitles = [
@@ -325,11 +325,13 @@ export default function SahilPortfolio() {
     return () => window.removeEventListener("mousemove", handleMove);
   }, []);
 
-  // Scroll progress
+  // Scroll progress (direct DOM update — no re-renders)
   useEffect(() => {
     const handleScroll = () => {
+      if (!scrollBarRef.current) return;
       const total = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(total > 0 ? window.scrollY / total : 0);
+      const p = total > 0 ? window.scrollY / total : 0;
+      scrollBarRef.current.style.width = `${p * 100}%`;
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -490,8 +492,9 @@ export default function SahilPortfolio() {
 
       {/* Scroll progress bar */}
       <div
+        ref={scrollBarRef}
         className="fixed top-0 left-0 h-[2px] bg-emerald-500 z-[60]"
-        style={{ width: `${scrollProgress * 100}%`, transition: "width 0.1s linear" }}
+        style={{ width: "0%", transition: "width 0.1s linear" }}
       />
 
       {/* Cursor glow (desktop) */}
