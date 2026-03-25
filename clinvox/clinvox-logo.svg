@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#818cf8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background pill -->
+  <rect x="0" y="0" width="400" height="200" rx="24" fill="#0f172a"/>
+
+  <!-- Medical cross + sound wave icon -->
+  <g transform="translate(45, 55)">
+    <!-- Cross shape -->
+    <rect x="25" y="8" width="16" height="74" rx="8" fill="url(#grad)"/>
+    <rect x="8" y="25" width="50" height="16" rx="8" fill="url(#grad)"/>
+
+    <!-- Sound wave arcs -->
+    <path d="M 72 42 Q 82 22, 82 42 Q 82 62, 72 42" stroke="url(#waveGrad)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M 80 42 Q 94 12, 94 42 Q 94 72, 80 42" stroke="url(#waveGrad)" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <path d="M 88 42 Q 106 2, 106 42 Q 106 82, 88 42" stroke="url(#waveGrad)" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.4"/>
+  </g>
+
+  <!-- Text: ClinVox -->
+  <text x="170" y="118" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="800" letter-spacing="-2">
+    <tspan fill="#e2e8f0">Clin</tspan><tspan fill="url(#grad)">Vox</tspan>
+  </text>
+
+  <!-- Subtitle -->
+  <text x="172" y="144" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#64748b" letter-spacing="3" font-weight="500">
+    AI CLINICAL DOCS
+  </text>
+</svg>

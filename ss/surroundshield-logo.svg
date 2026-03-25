@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#34d399;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="shieldFill" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:0.15" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:0.05" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background pill -->
+  <rect x="0" y="0" width="400" height="200" rx="24" fill="#0f172a"/>
+
+  <!-- Shield icon group -->
+  <g transform="translate(50, 28)">
+    <!-- Surrounding awareness arcs (radar pulses) -->
+    <path d="M 44 86 Q 44 110, 44 86" stroke="none" fill="none"/>
+    <!-- Outer arc left -->
+    <path d="M 12 30 C -2 52, -2 76, 12 98" stroke="url(#arcGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.25"/>
+    <!-- Mid arc left -->
+    <path d="M 20 38 C 10 54, 10 74, 20 90" stroke="url(#arcGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.45"/>
+    <!-- Inner arc left -->
+    <path d="M 28 46 C 22 56, 22 72, 28 82" stroke="url(#arcGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+
+    <!-- Outer arc right -->
+    <path d="M 78 30 C 92 52, 92 76, 78 98" stroke="url(#arcGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.25"/>
+    <!-- Mid arc right -->
+    <path d="M 70 38 C 80 54, 80 74, 70 90" stroke="url(#arcGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.45"/>
+    <!-- Inner arc right -->
+    <path d="M 62 46 C 68 56, 68 72, 62 82" stroke="url(#arcGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+
+    <!-- Top arcs -->
+    <path d="M 25 22 C 35 14, 55 14, 65 22" stroke="url(#arcGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.35"/>
+    <path d="M 18 14 C 32 2, 58 2, 72 14" stroke="url(#arcGrad)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.2"/>
+
+    <!-- Shield body -->
+    <path d="M 45 26 L 65 34 C 67 35, 68 37, 68 39 L 68 68 C 68 82, 56 96, 45 102 C 34 96, 22 82, 22 68 L 22 39 C 22 37, 23 35, 25 34 Z"
+      fill="url(#shieldFill)" stroke="url(#shieldGrad)" stroke-width="3" stroke-linejoin="round"/>
+
+    <!-- Inner shield detail - AI node pattern -->
+    <!-- Center node -->
+    <circle cx="45" cy="58" r="4" fill="url(#shieldGrad)" opacity="0.9"/>
+    <!-- Top node -->
+    <circle cx="45" cy="42" r="2.5" fill="url(#shieldGrad)" opacity="0.7"/>
+    <!-- Bottom left node -->
+    <circle cx="35" cy="72" r="2.5" fill="url(#shieldGrad)" opacity="0.7"/>
+    <!-- Bottom right node -->
+    <circle cx="55" cy="72" r="2.5" fill="url(#shieldGrad)" opacity="0.7"/>
+    <!-- Connecting lines -->
+    <line x1="45" y1="42" x2="45" y2="54" stroke="url(#shieldGrad)" stroke-width="1.5" opacity="0.5"/>
+    <line x1="45" y1="62" x2="36" y2="70" stroke="url(#shieldGrad)" stroke-width="1.5" opacity="0.5"/>
+    <line x1="45" y1="62" x2="54" y2="70" stroke="url(#shieldGrad)" stroke-width="1.5" opacity="0.5"/>
+    <!-- Checkmark accent -->
+    <path d="M 39 58 L 43 63 L 52 50" stroke="#e2e8f0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+  </g>
+
+  <!-- Text: SurroundShield -->
+  <text x="145" y="112" font-family="system-ui, -apple-system, sans-serif" font-size="40" font-weight="800" letter-spacing="-1.5">
+    <tspan fill="#e2e8f0">Surround</tspan><tspan fill="url(#shieldGrad)">Shield</tspan>
+  </text>
+
+  <!-- Subtitle -->
+  <text x="147" y="138" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b" letter-spacing="3.5" font-weight="500">
+    AI SAFETY ALERTS
+  </text>
+</svg>
