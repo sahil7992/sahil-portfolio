@@ -93,7 +93,7 @@ export default function SahilPortfolio() {
   const experiences = [
     {
       company: "Curantis Solutions",
-      role: "Software Development Engineer",
+      role: "Software Development Engineer (Full Stack)",
       location: "Addison, TX",
       dates: "06/2025 – Present",
       logo: assetPath("/curantis_solutions_logo.jpeg"),
@@ -101,6 +101,7 @@ export default function SahilPortfolio() {
       bullets: [
         { highlight: "Building Curantis AI", detail: "Building in-house clinical intelligence platform — voice transcription (Whisper + medical NER), document summarization, and agentic RAG support chat powered by Confluence knowledge base. Zero external API inference. Agent guides users with follow-up questions, escalates to live agent, and creates support tickets when stuck. HIPAA-compliant, ~$0.003/interaction" },
         { highlight: "Go microservices for billing", detail: "Designed and shipped Go REST APIs for healthcare billing workflows — Payer Config, Care Levels, CMS-compliant rates — replacing a 3-day manual process, cutting billing errors 30%" },
+        { highlight: "Frontend development", detail: "Built and maintained Angular clinical UI — patient dashboards, billing views, and internal admin tools used daily by clinical and operations staff" },
         { highlight: "87% faster reports", detail: "Rebuilt enterprise reporting infrastructure serving 7,000+ monthly downloads across 30+ QuickSight dashboards backed by 40+ Redshift datasets" },
         { highlight: "P1 billing outage resolved", detail: "Traced root cause through ETL pipeline to Postgres dependency failure and Redshift storage overflow; restored revenue-critical invoicing blocked for 2 months" },
         { highlight: "15K+ patient records recovered", detail: "Diagnosed pipeline failure from undocumented DynamoDB schema change; traced data through Kinesis streams and restored full integrity" },
@@ -238,7 +239,7 @@ export default function SahilPortfolio() {
       badge: "In Development",
       badgeColor: "amber",
       description:
-        "Full-stack platform for service business management — scheduling, customer management, and business operations. Monorepo architecture with Go microservices, Next.js web app, and React Native mobile. Multi-step onboarding wizard, Cognito auth, Google Places integration, and AWS-native infrastructure via CDK.",
+        "Smart scheduling platform built for frictionless service businesses — maximizing revenue by eliminating wasted time. For in-location visits: intelligent slot optimization so no minute goes unused. For doorstep services: route optimizer that cuts fuel costs and gives customers live ETA updates with exact arrival times. Built to help service providers make the most money from every hour.",
       tech: [
         "Next.js 16",
         "React 19",
