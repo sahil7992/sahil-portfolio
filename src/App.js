@@ -14,14 +14,13 @@ function AnimatedCounter({ target, suffix = "", duration = 2000 }) {
       ([entry]) => {
         if (entry.isIntersecting && !animated.current) {
           animated.current = true;
-          const start = performance.now();
-          const step = (now) => {
-            const p = Math.min((now - start) / duration, 1);
+          const start = Date.now();
+          const tick = setInterval(() => {
+            const p = Math.min((Date.now() - start) / duration, 1);
             const ease = 1 - Math.pow(1 - p, 3);
             setCount(Math.floor(ease * target));
-            if (p < 1) requestAnimationFrame(step);
-          };
-          requestAnimationFrame(step);
+            if (p >= 1) clearInterval(tick);
+          }, 30);
         }
       },
       { threshold: 0.1 }
