@@ -342,7 +342,7 @@ export default function SahilPortfolio() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     const NUM = 200;
-    const SPEED = 1.5;
+    const SPEED = 4;
     const DEPTH = 1000;
     let w, h, cx, cy;
     const sx = new Float32Array(NUM);
