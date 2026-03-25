@@ -100,10 +100,10 @@ export default function SahilPortfolio() {
       current: true,
       bullets: [
         { highlight: "Building Curantis AI", detail: "Production clinical intelligence platform replacing paid vendor — voice transcription (Whisper + medical NER), document summarization, and RAG support chat across 273 Confluence pages. HIPAA-compliant, ~$0.003/interaction" },
+        { highlight: "Go microservices for billing", detail: "Designed and shipped Go REST APIs for healthcare billing workflows — Payer Config, Care Levels, CMS-compliant rates — replacing a 3-day manual process, cutting billing errors 30%" },
         { highlight: "87% faster reports", detail: "Rebuilt enterprise reporting infrastructure serving 7,000+ monthly downloads across 30+ QuickSight dashboards backed by 40+ Redshift datasets" },
         { highlight: "P1 billing outage resolved", detail: "Traced root cause through ETL pipeline to Postgres dependency failure and Redshift storage overflow; restored revenue-critical invoicing blocked for 2 months" },
         { highlight: "15K+ patient records recovered", detail: "Diagnosed pipeline failure from undocumented DynamoDB schema change; traced data through Kinesis streams and restored full integrity" },
-        { highlight: "30% fewer billing errors", detail: "Designed Go REST APIs for healthcare billing workflows — Payer Config, Care Levels, CMS-compliant rates — replacing a 3-day manual process" },
       ],
     },
     {
@@ -324,18 +324,18 @@ export default function SahilPortfolio() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Warp speed starfield (lightweight — batched single-path draw)
+  // Warp speed starfield (zero-accumulation — full clear each frame)
   useEffect(() => {
     const canvas = warpRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    const NUM = 200;
-    const SPEED = 2;
+    const NUM = 180;
+    const SPEED = 1.5;
     const DEPTH = 1000;
     let w, h, cx, cy;
-    const px = new Float32Array(NUM);
-    const py = new Float32Array(NUM);
-    const pz = new Float32Array(NUM);
+    const sx = new Float32Array(NUM);
+    const sy = new Float32Array(NUM);
+    const sz = new Float32Array(NUM);
 
     function resize() {
       w = canvas.width = window.innerWidth;
@@ -346,32 +346,33 @@ export default function SahilPortfolio() {
     resize();
 
     for (let i = 0; i < NUM; i++) {
-      px[i] = (Math.random() - 0.5) * w * 2;
-      py[i] = (Math.random() - 0.5) * h * 2;
-      pz[i] = Math.random() * DEPTH;
+      sx[i] = (Math.random() - 0.5) * w * 2;
+      sy[i] = (Math.random() - 0.5) * h * 2;
+      sz[i] = Math.random() * DEPTH;
     }
 
     let animId;
     function frame() {
-      ctx.fillStyle = "rgba(5, 5, 5, 0.3)";
-      ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = "rgba(190, 210, 255, 0.5)";
-      ctx.lineWidth = 1.2;
+      ctx.clearRect(0, 0, w, h);
+      ctx.strokeStyle = "rgba(180, 210, 255, 0.45)";
+      ctx.lineWidth = 1;
       ctx.beginPath();
 
       for (let i = 0; i < NUM; i++) {
-        pz[i] -= SPEED;
-        if (pz[i] <= 0) {
-          px[i] = (Math.random() - 0.5) * w * 2;
-          py[i] = (Math.random() - 0.5) * h * 2;
-          pz[i] = DEPTH;
+        sz[i] -= SPEED;
+        if (sz[i] <= 0) {
+          sx[i] = (Math.random() - 0.5) * w * 2;
+          sy[i] = (Math.random() - 0.5) * h * 2;
+          sz[i] = DEPTH;
         }
-        const screenX = (px[i] / pz[i]) * 300 + cx;
-        const screenY = (py[i] / pz[i]) * 300 + cy;
-        const prevX = (px[i] / (pz[i] + 8)) * 300 + cx;
-        const prevY = (py[i] / (pz[i] + 8)) * 300 + cy;
-        ctx.moveTo(prevX, prevY);
-        ctx.lineTo(screenX, screenY);
+        const progress = 1 - sz[i] / DEPTH;
+        const trail = 2 + progress * 14;
+        const x1 = (sx[i] / sz[i]) * 300 + cx;
+        const y1 = (sy[i] / sz[i]) * 300 + cy;
+        const x0 = (sx[i] / (sz[i] + trail)) * 300 + cx;
+        const y0 = (sy[i] / (sz[i] + trail)) * 300 + cy;
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
       }
       ctx.stroke();
       animId = requestAnimationFrame(frame);
@@ -427,7 +428,16 @@ export default function SahilPortfolio() {
      JSX
      ════════════════════════════════════════════════════════════ */
   return (
-    <div className="relative z-10 min-h-screen text-white antialiased">
+    <>
+      {/* ─── WARP SPEED BACKGROUND (behind everything) ─── */}
+      <div className="fixed inset-0 z-0 overflow-hidden" style={{ background: "#050505" }}>
+        <canvas ref={warpRef} className="absolute inset-0 w-full h-full" />
+        <div className="nebula-1 absolute -top-32 left-1/4 w-[800px] h-[600px] rounded-full bg-purple-500/[0.04] blur-[150px]" />
+        <div className="nebula-2 absolute bottom-1/4 -right-32 w-[600px] h-[600px] rounded-full bg-cyan-500/[0.04] blur-[150px]" />
+        <div className="nebula-3 absolute top-1/2 -left-48 w-[500px] h-[500px] rounded-full bg-emerald-500/[0.03] blur-[120px]" />
+      </div>
+
+      <div className="relative z-10 min-h-screen text-white antialiased">
       {/* Skip to content */}
       <a
         href="#experience"
@@ -444,15 +454,6 @@ export default function SahilPortfolio() {
 
       {/* Cursor glow (desktop) */}
       <div ref={glowRef} className="cursor-glow hidden md:block" />
-
-      {/* ─── WARP SPEED BACKGROUND ─── */}
-      <div className="fixed inset-0 z-0 overflow-hidden">
-        <canvas ref={warpRef} className="absolute inset-0 w-full h-full" />
-        {/* Nebula clouds for color depth */}
-        <div className="nebula-1 absolute -top-32 left-1/4 w-[800px] h-[600px] rounded-full bg-purple-500/[0.04] blur-[150px]" />
-        <div className="nebula-2 absolute bottom-1/4 -right-32 w-[600px] h-[600px] rounded-full bg-cyan-500/[0.04] blur-[150px]" />
-        <div className="nebula-3 absolute top-1/2 -left-48 w-[500px] h-[500px] rounded-full bg-emerald-500/[0.03] blur-[120px]" />
-      </div>
 
       {/* ─── NAVIGATION ─── */}
       {/* Desktop floating pill */}
@@ -842,8 +843,8 @@ export default function SahilPortfolio() {
                           }}
                         />
                       ) : (
-                        <div className="w-full h-44 md:w-64 md:h-44 rounded-lg ring-1 ring-white/[0.08] bg-gradient-to-br from-emerald-500/10 via-cyan-500/5 to-purple-500/10 flex items-center justify-center">
-                          <span className="text-2xl font-black tracking-tight text-white/30 select-none">{proj.title}</span>
+                        <div className="w-full h-44 md:w-64 md:h-44 rounded-lg ring-1 ring-white/[0.1] bg-gradient-to-br from-emerald-500/15 via-cyan-500/10 to-purple-500/15 flex items-center justify-center">
+                          <span className="text-2xl font-black tracking-tight text-white/70 select-none">{proj.title}</span>
                         </div>
                       )}
                       {images.length > 1 && (
@@ -1142,5 +1143,6 @@ export default function SahilPortfolio() {
         </div>
       </footer>
     </div>
+    </>
   );
 }
