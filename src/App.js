@@ -389,19 +389,19 @@ export default function SahilPortfolio() {
         ty[i] = (sy[i] / (sz[i] + 10)) * 300 + cy;
       }
 
-      // Red channel (offset left-up, subtle)
-      ctx.strokeStyle = "rgba(255, 60, 60, 0.25)";
+      // Green tint (offset left, subtle)
+      ctx.strokeStyle = "rgba(80, 255, 160, 0.15)";
       ctx.lineWidth = 1;
       ctx.beginPath();
       for (let i = 0; i < NUM; i++) {
-        ctx.moveTo(tx[i] - 1.5, ty[i] - 0.5);
-        ctx.lineTo(hx[i] - 1.5, hy[i] - 0.5);
+        ctx.moveTo(tx[i] - 1, ty[i] - 0.5);
+        ctx.lineTo(hx[i] - 1, hy[i] - 0.5);
       }
       ctx.stroke();
 
-      // Green channel (center, strongest — theme color)
-      ctx.strokeStyle = "rgba(16, 230, 130, 0.55)";
-      ctx.lineWidth = 1.5;
+      // White core (center, brightest)
+      ctx.strokeStyle = "rgba(240, 245, 255, 0.55)";
+      ctx.lineWidth = 1.3;
       ctx.beginPath();
       for (let i = 0; i < NUM; i++) {
         ctx.moveTo(tx[i], ty[i]);
@@ -409,13 +409,13 @@ export default function SahilPortfolio() {
       }
       ctx.stroke();
 
-      // Blue channel (offset right-down, subtle)
-      ctx.strokeStyle = "rgba(60, 120, 255, 0.25)";
+      // Blue tint (offset right, subtle)
+      ctx.strokeStyle = "rgba(80, 150, 255, 0.15)";
       ctx.lineWidth = 1;
       ctx.beginPath();
       for (let i = 0; i < NUM; i++) {
-        ctx.moveTo(tx[i] + 1.5, ty[i] + 0.5);
-        ctx.lineTo(hx[i] + 1.5, hy[i] + 0.5);
+        ctx.moveTo(tx[i] + 1, ty[i] + 0.5);
+        ctx.lineTo(hx[i] + 1, hy[i] + 0.5);
       }
       ctx.stroke();
 
