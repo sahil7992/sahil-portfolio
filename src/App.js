@@ -76,10 +76,8 @@ export default function SahilPortfolio() {
 
   /* ── Data ── */
   const roleTitles = [
+    "Software Engineer",
     "Full Stack Engineer",
-    "AI Engineer",
-    "Prompt Engineer",
-    "BI Engineer",
     "Backend Engineer",
   ];
 
@@ -153,7 +151,7 @@ export default function SahilPortfolio() {
 
   const skills = {
     "Programming Languages": [
-      "Go (Golang)",
+      "Go / Golang",
       "Python",
       "TypeScript",
       "JavaScript",
@@ -177,11 +175,11 @@ export default function SahilPortfolio() {
       "AWS Bedrock",
       "FAISS",
       "Prompt Engineering",
-      "Fine-tuning",
       "NER (scispaCy)",
       "ETL/ELT Pipelines",
       "Data Modeling",
       "Data Warehousing",
+      "Event-Driven Architecture",
     ],
     "Databases & Cloud": [
       "PostgreSQL",
@@ -192,6 +190,7 @@ export default function SahilPortfolio() {
       "AWS Lambda",
       "S3",
       "EC2",
+      "API Gateway",
       "Kinesis",
       "SageMaker",
       "DMS",
@@ -199,6 +198,7 @@ export default function SahilPortfolio() {
       "CloudWatch",
       "CodePipeline",
       "QuickSight",
+      "AWS CDK",
     ],
     "Tools & Platforms": [
       "Claude Code",
@@ -209,8 +209,10 @@ export default function SahilPortfolio() {
       "Databricks",
       "Git/GitHub",
       "CI/CD",
+      "RESTful APIs",
       "Microservices",
-      "Serverless (Lambda)",
+      "Serverless",
+      "Distributed Systems",
     ],
   };
 
@@ -334,12 +336,12 @@ export default function SahilPortfolio() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Warp speed starfield (zero-accumulation — full clear each frame)
+  // Warp speed — alpha trails + chromatic aberration (RGB split per streak)
   useEffect(() => {
     const canvas = warpRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    const NUM = 180;
+    const NUM = 200;
     const SPEED = 1.5;
     const DEPTH = 1000;
     let w, h, cx, cy;
@@ -361,21 +363,19 @@ export default function SahilPortfolio() {
       sz[i] = Math.random() * DEPTH;
     }
 
-    // Use offscreen canvas to avoid main canvas GC
-    const offscreen = document.createElement("canvas");
-    offscreen.width = w;
-    offscreen.height = h;
-    const offCtx = offscreen.getContext("2d");
+    // Temp arrays for projected positions
+    const hx = new Float32Array(NUM);
+    const hy = new Float32Array(NUM);
+    const tx = new Float32Array(NUM);
+    const ty = new Float32Array(NUM);
 
     let animId;
     function frame() {
-      // Draw fade + stars on offscreen first
-      offCtx.fillStyle = "rgba(5, 5, 5, 0.2)";
-      offCtx.fillRect(0, 0, w, h);
-      offCtx.strokeStyle = "rgba(190, 215, 255, 0.55)";
-      offCtx.lineWidth = 1.2;
-      offCtx.beginPath();
+      // Fade to pure black (rgba 0,0,0 — no gray artifacts)
+      ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+      ctx.fillRect(0, 0, w, h);
 
+      // Update + project
       for (let i = 0; i < NUM; i++) {
         sz[i] -= SPEED;
         if (sz[i] <= 0) {
@@ -383,26 +383,46 @@ export default function SahilPortfolio() {
           sy[i] = (Math.random() - 0.5) * h * 2;
           sz[i] = DEPTH;
         }
-        const x1 = (sx[i] / sz[i]) * 300 + cx;
-        const y1 = (sy[i] / sz[i]) * 300 + cy;
-        const x0 = (sx[i] / (sz[i] + 10)) * 300 + cx;
-        const y0 = (sy[i] / (sz[i] + 10)) * 300 + cy;
-        offCtx.moveTo(x0, y0);
-        offCtx.lineTo(x1, y1);
+        hx[i] = (sx[i] / sz[i]) * 300 + cx;
+        hy[i] = (sy[i] / sz[i]) * 300 + cy;
+        tx[i] = (sx[i] / (sz[i] + 10)) * 300 + cx;
+        ty[i] = (sy[i] / (sz[i] + 10)) * 300 + cy;
       }
-      offCtx.stroke();
 
-      // Blit to visible canvas in one call
-      ctx.clearRect(0, 0, w, h);
-      ctx.drawImage(offscreen, 0, 0);
+      // Red channel (offset left-up, subtle)
+      ctx.strokeStyle = "rgba(255, 60, 60, 0.25)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let i = 0; i < NUM; i++) {
+        ctx.moveTo(tx[i] - 1.5, ty[i] - 0.5);
+        ctx.lineTo(hx[i] - 1.5, hy[i] - 0.5);
+      }
+      ctx.stroke();
+
+      // Green channel (center, strongest — theme color)
+      ctx.strokeStyle = "rgba(16, 230, 130, 0.55)";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      for (let i = 0; i < NUM; i++) {
+        ctx.moveTo(tx[i], ty[i]);
+        ctx.lineTo(hx[i], hy[i]);
+      }
+      ctx.stroke();
+
+      // Blue channel (offset right-down, subtle)
+      ctx.strokeStyle = "rgba(60, 120, 255, 0.25)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let i = 0; i < NUM; i++) {
+        ctx.moveTo(tx[i] + 1.5, ty[i] + 0.5);
+        ctx.lineTo(hx[i] + 1.5, hy[i] + 0.5);
+      }
+      ctx.stroke();
+
       animId = requestAnimationFrame(frame);
     }
 
-    function onResize() {
-      resize();
-      offscreen.width = w;
-      offscreen.height = h;
-    }
+    function onResize() { resize(); }
     frame();
 
     window.addEventListener("resize", onResize);
@@ -456,11 +476,8 @@ export default function SahilPortfolio() {
   return (
     <>
       {/* ─── WARP SPEED BACKGROUND (behind everything) ─── */}
-      <div className="fixed inset-0 z-0 overflow-hidden" style={{ background: "#050505" }}>
+      <div className="fixed inset-0 z-0" style={{ background: "#000" }}>
         <canvas ref={warpRef} className="absolute inset-0 w-full h-full" />
-        <div className="nebula-1 absolute -top-32 left-1/4 w-[800px] h-[600px] rounded-full bg-purple-500/[0.04] blur-[150px]" />
-        <div className="nebula-2 absolute bottom-1/4 -right-32 w-[600px] h-[600px] rounded-full bg-cyan-500/[0.04] blur-[150px]" />
-        <div className="nebula-3 absolute top-1/2 -left-48 w-[500px] h-[500px] rounded-full bg-emerald-500/[0.03] blur-[120px]" />
       </div>
 
       <div className="relative z-10 min-h-screen text-white antialiased">
@@ -627,10 +644,10 @@ export default function SahilPortfolio() {
               transition={{ delay: 0.5 }}
               className="mt-5 text-zinc-400 max-w-xl text-base md:text-lg leading-relaxed"
             >
-              Software engineer with 2+ years building production backend
-              systems and data pipelines in healthcare. I ship code that
-              processes 15,000+ patient records and powers enterprise billing
-              at scale. Go, Python, AWS.
+              Software engineer with 2+ years building HIPAA-compliant
+              production systems and data pipelines in healthcare. I ship
+              Go microservices that process 15,000+ patient records and
+              power enterprise billing at scale. Go, Python, AWS.
             </motion.p>
 
             {/* CTAs */}
