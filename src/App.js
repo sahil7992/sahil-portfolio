@@ -353,9 +353,10 @@ export default function SahilPortfolio() {
 
     let animId;
     function frame() {
-      ctx.clearRect(0, 0, w, h);
-      ctx.strokeStyle = "rgba(180, 210, 255, 0.45)";
-      ctx.lineWidth = 1;
+      ctx.fillStyle = "rgba(5, 5, 5, 0.2)";
+      ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = "rgba(190, 215, 255, 0.55)";
+      ctx.lineWidth = 1.2;
       ctx.beginPath();
 
       for (let i = 0; i < NUM; i++) {
@@ -365,12 +366,10 @@ export default function SahilPortfolio() {
           sy[i] = (Math.random() - 0.5) * h * 2;
           sz[i] = DEPTH;
         }
-        const progress = 1 - sz[i] / DEPTH;
-        const trail = 2 + progress * 14;
         const x1 = (sx[i] / sz[i]) * 300 + cx;
         const y1 = (sy[i] / sz[i]) * 300 + cy;
-        const x0 = (sx[i] / (sz[i] + trail)) * 300 + cx;
-        const y0 = (sy[i] / (sz[i] + trail)) * 300 + cy;
+        const x0 = (sx[i] / (sz[i] + 10)) * 300 + cx;
+        const y0 = (sy[i] / (sz[i] + 10)) * 300 + cy;
         ctx.moveTo(x0, y0);
         ctx.lineTo(x1, y1);
       }
