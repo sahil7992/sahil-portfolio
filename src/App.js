@@ -351,17 +351,20 @@ export default function SahilPortfolio() {
       sz[i] = Math.random() * DEPTH;
     }
 
-    let animId;
-    const FAR = DEPTH * 0.66, MID = DEPTH * 0.33;
-    function frame() {
-      ctx.clearRect(0, 0, w, h);
+    // Use offscreen canvas to avoid main canvas GC
+    const offscreen = document.createElement("canvas");
+    offscreen.width = w;
+    offscreen.height = h;
+    const offCtx = offscreen.getContext("2d");
 
-      // 3 depth layers — far (dim/short), mid, close (bright/long)
-      const layers = [
-        { minZ: FAR, trail: 6, style: "rgba(140,180,255,0.2)", width: 0.5 },
-        { minZ: MID, trail: 20, style: "rgba(170,205,255,0.4)", width: 1 },
-        { minZ: 0, trail: 45, style: "rgba(210,230,255,0.7)", width: 1.8 },
-      ];
+    let animId;
+    function frame() {
+      // Draw fade + stars on offscreen first
+      offCtx.fillStyle = "rgba(5, 5, 5, 0.2)";
+      offCtx.fillRect(0, 0, w, h);
+      offCtx.strokeStyle = "rgba(190, 215, 255, 0.55)";
+      offCtx.lineWidth = 1.2;
+      offCtx.beginPath();
 
       for (let i = 0; i < NUM; i++) {
         sz[i] -= SPEED;
@@ -370,36 +373,32 @@ export default function SahilPortfolio() {
           sy[i] = (Math.random() - 0.5) * h * 2;
           sz[i] = DEPTH;
         }
+        const x1 = (sx[i] / sz[i]) * 300 + cx;
+        const y1 = (sy[i] / sz[i]) * 300 + cy;
+        const x0 = (sx[i] / (sz[i] + 10)) * 300 + cx;
+        const y0 = (sy[i] / (sz[i] + 10)) * 300 + cy;
+        offCtx.moveTo(x0, y0);
+        offCtx.lineTo(x1, y1);
       }
+      offCtx.stroke();
 
-      for (const layer of layers) {
-        ctx.strokeStyle = layer.style;
-        ctx.lineWidth = layer.width;
-        ctx.beginPath();
-        for (let i = 0; i < NUM; i++) {
-          const inLayer = layer.minZ === 0
-            ? sz[i] < MID
-            : layer.minZ === MID
-              ? sz[i] >= MID && sz[i] < FAR
-              : sz[i] >= FAR;
-          if (!inLayer) continue;
-          const x1 = (sx[i] / sz[i]) * 300 + cx;
-          const y1 = (sy[i] / sz[i]) * 300 + cy;
-          const x0 = (sx[i] / (sz[i] + layer.trail)) * 300 + cx;
-          const y0 = (sy[i] / (sz[i] + layer.trail)) * 300 + cy;
-          ctx.moveTo(x0, y0);
-          ctx.lineTo(x1, y1);
-        }
-        ctx.stroke();
-      }
+      // Blit to visible canvas in one call
+      ctx.clearRect(0, 0, w, h);
+      ctx.drawImage(offscreen, 0, 0);
       animId = requestAnimationFrame(frame);
+    }
+
+    function onResize() {
+      resize();
+      offscreen.width = w;
+      offscreen.height = h;
     }
     frame();
 
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize", onResize);
     return () => {
       cancelAnimationFrame(animId);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", onResize);
     };
   }, []);
 
