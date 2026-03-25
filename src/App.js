@@ -99,7 +99,7 @@ export default function SahilPortfolio() {
       logo: assetPath("/curantis_solutions_logo.jpeg"),
       current: true,
       bullets: [
-        { highlight: "Building Curantis AI", detail: "Production clinical intelligence platform replacing paid vendor — voice transcription (Whisper + medical NER), document summarization, and agentic RAG support chat (273 Confluence pages). Fully in-house, zero external API inference. Agent guides users with follow-up questions, escalates to live agent, and creates support tickets when stuck. HIPAA-compliant, ~$0.003/interaction" },
+        { highlight: "Building Curantis AI", detail: "Building in-house clinical intelligence platform replacing paid third-party vendor — voice transcription (Whisper + medical NER), document summarization, and agentic RAG support chat powered by Confluence knowledge base. Fully in-house, zero external API inference. Agent guides users with follow-up questions, escalates to live agent, and creates support tickets when stuck. HIPAA-compliant, ~$0.003/interaction" },
         { highlight: "Go microservices for billing", detail: "Designed and shipped Go REST APIs for healthcare billing workflows — Payer Config, Care Levels, CMS-compliant rates — replacing a 3-day manual process, cutting billing errors 30%" },
         { highlight: "87% faster reports", detail: "Rebuilt enterprise reporting infrastructure serving 7,000+ monthly downloads across 30+ QuickSight dashboards backed by 40+ Redshift datasets" },
         { highlight: "P1 billing outage resolved", detail: "Traced root cause through ETL pipeline to Postgres dependency failure and Redshift storage overflow; restored revenue-critical invoicing blocked for 2 months" },
